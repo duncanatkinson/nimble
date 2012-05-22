@@ -45,7 +45,7 @@ public class InputFieldIT {
 	public void checkRenderingAndStore(){
 		for(WebDriver driver : webDrivers){
 			System.out.println(driver.getTitle());
-			driver.get("http://localhost:9090/test-nimble/test-all.jsp");
+			driver.get("http://localhost:9090/test-nimble/index.jsp");
 			WebElement field = driver.findElement(By.id("name"));
 			field.sendKeys("Mr Cheese");
 			field.sendKeys(Keys.TAB);
