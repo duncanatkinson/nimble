@@ -88,6 +88,8 @@ var nimble = {}; //nimble namespace
 			if(typeof notSending == 'function'){
 				notSending();
 			}
+		}else{
+			sending(sendCount);
 		}
 	};
 	
