@@ -7,7 +7,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>com.felthat.nimble parent pom</name>
+	<name>nimble super pom</name>
+	<description>Global build configuration for nimble</description>
+
 	<properties>
 		<java-version>1.6</java-version>
 		<java-compiler-args>-g</java-compiler-args>
@@ -16,7 +18,7 @@
 		<maven-surefire-plugin-version>2.8.1</maven-surefire-plugin-version>
 		<!--java-compiler-args>-g -J-Xmx512m -J-XX:MaxPermSize=256m</java-compiler-args -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<weblogic.domain.name>nimble.com</weblogic.domain.name>
+		<weblogic.domain.name>theaa.com</weblogic.domain.name>
 		<servlet-api-version>2.5</servlet-api-version>
 		<jms-version>1.1</jms-version>
 		<log4j-version>1.2.16</log4j-version>
@@ -29,6 +31,8 @@
 		<mockito-core-version>1.9.0-rc1</mockito-core-version>
 		<junit-version>4.9</junit-version>
 		<junit-dep-version>4.4</junit-dep-version>
+		<selenium-java-version>2.20.0</selenium-java-version>
+		
 		<commons-logging-version>1.1.1</commons-logging-version>
 		<commons-lang-version>2.3</commons-lang-version>
 		<commons-beanutils-version>1.8.0</commons-beanutils-version>
@@ -60,12 +64,80 @@
 
 		<jackson-mapper-asl-version>1.7.1</jackson-mapper-asl-version>
 
+		<!-- NB: Web apps with non-standard TeamSite content (such as Go Travel) must override dir.TeamsiteRootPath and dir.StaticContentPath in their own POM -->
+		<dir.TeamsiteRootPath>Y:\\</dir.TeamsiteRootPath><!-- Overridden by a profile below for linux machines -->
+		<dir.StaticContentPath>main/Sites/E-Commerce/STAGING</dir.StaticContentPath>
+		<!--dir.StaticContentPath>GeneralNotes/AgilityProject/WR11111</dir.StaticContentPath-->
+
 		<!-- Although the above directories will be present in our weblogic.xmls, the live deployment process overrides them -->
-		<maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
-		<infoset-version>1.2.9</infoset-version>
+    <maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
+    <infoset-version>1.2.9</infoset-version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<property>
+					<name>functional-tests</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<build>
+				<pluginManagement>
+				<plugins>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin-version}</version>
+					<configuration>
+						<junitArtifactName>junit:junit</junitArtifactName>
+						<includes>
+							<include>**/*Test.java</include>
+							<include>**/*Tests.java</include>
+						</includes>
+						<excludes>
+							<exclude>**/*Functional*Test.java</exclude>
+							<exclude>**/*Functional*Tests.java</exclude>
+							<exclude>**/*Integration*Test.java</exclude>
+							<exclude>**/*Integration*Tests.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+		<profile>
+			<!-- If running on Linux, we'll override the dir.TeamsiteRootPath property to a another mount point -->
+			<id>dev-linux</id>
+			<activation>
+				<property>
+					<name>THEAA_COM_ENV</name>
+					<!-- change the following if you're using a custom properties file -->
+					<value>dev</value>
+				</property>
+				<os>
+					<family>Linux</family>
+				</os>
+			</activation>
+			<properties>
+				<dir.TeamsiteRootPath>/iwmnt/AA/</dir.TeamsiteRootPath>
+			</properties>
+		</profile>
+	</profiles>
 
+<!-- 	<distributionManagement> -->
+<!-- 		<repository> -->
+<!-- 			<id>nexus</id> -->
+<!-- 			<url>http://test-db002:8081/nexus/content/repositories/releases/</url> -->
+<!-- 		</repository> -->
+<!-- 		<snapshotRepository> -->
+<!-- 			<id>nexus</id> -->
+<!-- 			<url>http://test-db002:8081/nexus/content/repositories/snapshots/</url> -->
+<!-- 		</snapshotRepository> -->
+<!-- 	</distributionManagement> -->
 
 	<dependencyManagement>
 
@@ -388,13 +460,197 @@
 				<scope>test</scope>
 			</dependency>
 
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium-java-version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
 		</dependencies>
 
 	</dependencyManagement>
-	<modules>
-		<module>nimble</module>
-		<module>test-nimble</module>
-	</modules>
-	
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${java-version}</source>
+						<target>${java-version}</target>
+						<compilerArgument>${java-compiler-args}</compilerArgument>
+						<encoding>windows-1252</encoding>
+						<!-- Kept getting `java.lang.OutOfMemoryError: PermGen space` So far, this change seems to be doing the trick of feeding javac enough bytes. Please keep the forking enabled, otherwise the memory settings will not make sense as javac will be executed inside the Maven memory space, which isn't controlled here. -->
+						<fork>true</fork>
+						<meminitial>128m</meminitial>
+						<maxmem>512m</maxmem>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin-version}</version>
+					<configuration>
+						<junitArtifactName>junit:junit</junitArtifactName>
+						<includes>
+							<include>**/*Test.java</include>
+							<include>**/*Tests.java</include>
+						</includes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<version>${jaxb2-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf-codegen-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>aspectj-maven-plugin</artifactId>
+					<version>1.2</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.aspectj</groupId>
+							<artifactId>aspectjrt</artifactId>
+							<version>${org.aspectj-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.aspectj</groupId>
+							<artifactId>aspectjtools</artifactId>
+							<version>${org.aspectj-version}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>test-compile</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<outxml>true</outxml>
+						<source>${java-version}</source>
+						<target>${java-version}</target>
+					</configuration>
+				</plugin>
+
+
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
+					<version>6.1.10</version>
+					<configuration>
+						<scanIntervalSeconds>1</scanIntervalSeconds>
+						<stopKey>foo</stopKey>
+						<stopPort>9999</stopPort>
+						<connectors>
+							<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+	 							<port>9090</port>
+	 						</connector>
+						</connectors>
+					</configuration>
+					<executions>
+						<execution>
+							<id>start-jetty</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
+							<configuration>
+								<scanIntervalSeconds>0</scanIntervalSeconds>
+								<daemon>true</daemon>
+							</configuration>
+						</execution>
+						<execution>
+							<id>stop-jetty</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>stop</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.12</version>
+					<executions>
+						<execution>
+							<phase>integration-test</phase>
+							<goals>	
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+
+						</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<tagListOptions>
+						<tagClasses>
+							<tagClass>
+								<displayName>Todo Work</displayName>
+								<tags>
+									<tag>
+										<matchString>todo</matchString>
+										<matchType>ignoreCase</matchType>
+									</tag>
+									<tag>
+										<matchString>FIXME</matchString>
+										<matchType>exact</matchType>
+									</tag>
+								</tags>
+							</tagClass>
+						</tagClasses>
+					</tagListOptions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+<modules>
+<module>nimble-core</module>
+<module>test-nimble</module>
+</modules>
 </project>

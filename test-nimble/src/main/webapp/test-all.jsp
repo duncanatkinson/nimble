@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ taglib uri="http://www.nimble.com/nimble" prefix="n" %>
+<%@ taglib uri="http://www.nimble.com/nimble-core" prefix="n" %>
 <script type="text/javascript" src="javascript/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="javascript/jquery.json-2.3.js"></script>
 <script type="text/javascript" src="javascript/nimble.js"></script>

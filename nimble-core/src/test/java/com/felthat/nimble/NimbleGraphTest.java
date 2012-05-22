@@ -1,4 +1,4 @@
-package com.nimble.nimble.internal;
+package com.felthat.nimble;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

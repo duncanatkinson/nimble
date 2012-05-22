@@ -33,7 +33,10 @@ public class InputFieldIT {
 	@After
 	public void cleanUp(){
 		for(WebDriver d:webDrivers){
-//			d.quit();
+			try{
+			d.quit();
+			}catch (Exception e) {
+			}
 		}
 	}
 	

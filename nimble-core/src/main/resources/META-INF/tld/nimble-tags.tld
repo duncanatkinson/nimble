@@ -5,11 +5,11 @@
 	<description>Custom Tags for nimble.com web architecture</description>
 	<tlib-version>1.0</tlib-version>
 	<short-name>NimbleTags</short-name>
-	<uri>http://www.nimble.com/nimble</uri>
+	<uri>http://www.nimble.com/nimble-core</uri>
 
 	<tag>
 		<name>input</name>
-		<tag-class>org.felthat.nimble.tags.InputTag</tag-class>
+		<tag-class>com.felthat.nimble.tags.InputTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>accesskey</name>
@@ -171,7 +171,7 @@
 
 	<tag>
 		<name>select</name>
-		<tag-class>org.felthat.nimble.tags.SelectTag</tag-class>
+		<tag-class>com.felthat.nimble.tags.SelectTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>accesskey</name>
@@ -282,7 +282,7 @@
 
 	<tag>
 		<name>option</name>
-		<tag-class>org.felthat.nimble.tags.OptionTag</tag-class>
+		<tag-class>com.felthat.nimble.tags.OptionTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>accesskey</name>

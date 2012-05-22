@@ -21,9 +21,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
-import com.nimble.nimble.graph.NimbleMapGraph;
-import com.nimble.nimble.rest.NimbleRequest;
-import com.nimble.nimble.rest.NimbleResponse;
+import com.felthat.nimble.graph.NimbleMapGraph;
+import com.felthat.nimble.rest.NimbleRequest;
+import com.felthat.nimble.rest.NimbleResponse;
 
 
 public class RestServiceIT {
@@ -43,6 +43,7 @@ public class RestServiceIT {
 	public void setup(){
 		client = new HttpClient();
 	}
+
 	
 	@Test
 	public void makeSureItIsRunning() throws HttpException, IOException {
