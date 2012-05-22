@@ -10,7 +10,7 @@
 	<context:component-scan base-package="com.felthat.nimble" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="alwaysUseFullPath" value="true" />
+<!-- 		<property name="alwaysUseFullPath" value="true" /> -->
 		<property name="messageConverters">
 			<list>
 				<ref bean="jsonConverter" />

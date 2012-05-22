@@ -21,7 +21,7 @@ import com.felthat.nimble.graph.NimbleMapGraph;
 @RequestMapping(value=NimbleRestService.ROOT_PATH)
 public class NimbleRestService {
 	
-	static final String ROOT_PATH = "/rest/nimble";
+	static final String ROOT_PATH = "/nimble";
 
 	public static final String NIMBLE_GRAPH = "NIMBLE_GRAPH";
 
@@ -81,9 +81,9 @@ public class NimbleRestService {
 	private String getBaseURL(HttpServletRequest request) {
 		String requestURL = request.getRequestURL().toString();
 		String contextPath = request.getContextPath();
-		String start = requestURL.substring(0,requestURL.indexOf(contextPath)+contextPath.length());
-		
-		return start + ROOT_PATH;
+		String servletPath = request.getServletPath();
+		String start = requestURL.substring(0,requestURL.indexOf(contextPath)+contextPath.length());		
+		return start + servletPath + ROOT_PATH;
 	}
 
 }

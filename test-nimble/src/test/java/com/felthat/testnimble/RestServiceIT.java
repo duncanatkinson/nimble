@@ -92,7 +92,7 @@ public class RestServiceIT {
 	}
 	
 	@Test
-	public void makeSureItIsFresh() throws HttpException, IOException {
+	public void makeSureUrlIsCorrect() throws HttpException, IOException {
 		GetMethod request = new GetMethod(urlRestNimble);
 		client.executeMethod(request);
 		String responseString = request.getResponseBodyAsString();
