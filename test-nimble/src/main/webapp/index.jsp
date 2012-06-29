@@ -32,8 +32,15 @@
 			<n:option value="Porsche" >Porsche</n:option>
 		</n:select>
 	</div>
-	
-	<input id="submit" type="submit" onclick='nimble.send($(".nimble"))' />
+	<div>
+		<label for="exampleRadioYes">yes</label>
+		<n:input type="radio" id="exampleRadioYes" name="exampleRadio" value="yes" />
+		<br />
+		<label for="exampleRadioNo">no</label>
+		<n:input type="radio" id="exampleRadioNo" name="exampleRadio" value="no" />
+		
+	</div>
+	<input id="submit" type="button" onclick='nimble.send($(".nimble"))' value="send" />
 	
 	<p id="ajaxStatus"></p>
 </body>

@@ -22,16 +22,11 @@
 			<name>klass</name>
 		</attribute>
 		<attribute>
-			<name>klass</name>
-		</attribute>
-		<attribute>
 			<name>cssStyle</name>
 		</attribute>
 		<attribute>
 			<name>cssClass</name>
 		</attribute>
-		
-		
 		<attribute>
 			<name>dir</name>
 		</attribute>
@@ -123,6 +118,10 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<name>selected</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>size</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -151,21 +150,6 @@
 			<description>Value is only required for radios.</description>
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>Specify whether to use request parameters if model not populated.</description>
-			<name>loadFromRequestIfNotInModel</name>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>Specify value of checkbox when unselected.</description>
-			<name>valueWhenUnselected</name>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>Whether changes to the field's value are sent to the server using AJAX</description>
-			<name>ajaxEnabled</name>
-			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
 
@@ -273,11 +257,6 @@
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<attribute>
-			<description>Whether changes to the field's value are sent to the server using AJAX</description>
-			<name>ajaxEnabled</name>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
 	</tag>
 
 	<tag>
@@ -377,11 +356,6 @@
 		<attribute>
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>Whether changes to the field's value are sent to the server using AJAX</description>
-			<name>ajaxEnabled</name>
-			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
 
