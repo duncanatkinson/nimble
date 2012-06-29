@@ -44,10 +44,6 @@ public abstract class FormInputTag extends HtmlTag {
 			put("checked", checked);
 	}
 
-	public void setSelected(String value){
-		put("selected",value);
-	}
-	
 	public String getDisabled() {
 		return (String)getValue("disabled");
 	}
@@ -101,10 +97,6 @@ public abstract class FormInputTag extends HtmlTag {
 		return (String)getValue("type");
 	}
 
-	public String getSelected() {
-		return (String)getValue("selected");
-	}
-	
 	public void setType(String type) {
 		put("type", type);
 	}

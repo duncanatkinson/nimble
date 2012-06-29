@@ -15,8 +15,6 @@ import com.felthat.nimble.rest.NimbleRestService;
 
 public class TestInputTag {
 
-	
-	
 	private PageContext pageContext;
 	private Graph nimbleGraph;
 	private InputTag input;
@@ -53,7 +51,7 @@ public class TestInputTag {
 	
 	@Test
 	public void radioSelectedNull(){
-		assertNull(input.getSelected());
+		assertNull(input.getChecked());
 	}
 	
 	@Test
@@ -63,11 +61,20 @@ public class TestInputTag {
 		input.setValue("SomeValue");
 		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn("SomeValue");
 		input.doStartTag();
-		assertEquals("selected",input.getSelected());
+		assertEquals("selected",input.getChecked());
 	}
 	
 	@Test
+	public void radioNotSelected() throws JspException{
+		input.setName("myObject/mySubObject");
+		input.setType("radio");
+		input.setValue("SomeValue");
+		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn("NotSomeValue");
+		input.doStartTag();
+		assertEquals(null,input.getChecked());
+	}
+	@Test
 	public void radioSelectedFromModel(){
-		assertNull(input.getSelected());
+		assertNull(input.getChecked());
 	}
 }

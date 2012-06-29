@@ -33,13 +33,29 @@
 		</n:select>
 	</div>
 	<div>
+	<span>Do you like pizza</span><br />
 		<label for="exampleRadioYes">yes</label>
 		<n:input type="radio" id="exampleRadioYes" name="exampleRadio" value="yes" />
 		<br />
 		<label for="exampleRadioNo">no</label>
 		<n:input type="radio" id="exampleRadioNo" name="exampleRadio" value="no" />
-		
+		<br />
+		<label for="exampleRadioNotSure">I'm not sure</label>
+		<n:input type="radio" id="exampleRadioNotSure" name="exampleRadio" value="notSure" />
 	</div>
+	
+	<div>
+	<span>What do you like on your chips?</span>
+		<label for="salt">salt</label>
+		<n:input type="checkbox" id="salt" name="chips/preferences" value="salt" />
+		
+		<label for="vinegar">vinegar</label>
+		<n:input type="checkbox" id="vinegar" name="chips/preferences" value="vinegar" />
+		
+		<label for="ketchup">Ketchup</label>
+		<n:input type="checkbox" id="ketchup" name="chips/preferences" value="ketchup" />
+	</div>
+	
 	<input id="submit" type="button" onclick='nimble.send($(".nimble"))' value="send" />
 	
 	<p id="ajaxStatus"></p>

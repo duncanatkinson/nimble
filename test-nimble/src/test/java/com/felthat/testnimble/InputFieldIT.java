@@ -44,7 +44,7 @@ public class InputFieldIT {
 
 	  @After
 	  public void quitDriver() {
-	    driver.close();
+//	    driver.close();
 	  }
 	
 	

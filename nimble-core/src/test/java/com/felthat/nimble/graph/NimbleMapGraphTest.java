@@ -1,14 +1,16 @@
-package com.felthat.nimble;
+package com.felthat.nimble.graph;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 import com.felthat.nimble.graph.Graph;
 import com.felthat.nimble.graph.NimbleMapGraph;
 
-public class NimbleGraphTest {
+public class NimbleMapGraphTest {
 
 	
 	@Test
@@ -233,6 +235,15 @@ public class NimbleGraphTest {
 		assertEquals("Reading", graph.getField("town"));
 		assertEquals("Berkshire", graph.getField("county"));
 	}
+	
+	
+	public void testGetField(){
+		Graph graph = new NimbleMapGraph();
+		ArrayList<String> stringList = new ArrayList<String>();
+		stringList.add("String1");
+		stringList.add("String2");
+//		graph.put("/listOfStrings", stringList);
+	}
 
 
 	private Graph  makeAddress(String houseNumber,String postcode, String town, String county) {
@@ -243,5 +254,7 @@ public class NimbleGraphTest {
 		graph.put("county",county);
 		return graph;
 	}
+	
+	
 }
 

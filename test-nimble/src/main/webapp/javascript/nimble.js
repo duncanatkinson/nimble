@@ -14,7 +14,15 @@ var nimble = {}; //nimble namespace
 		}
 		jqueryFields.each(
 				function(index,element){
-					rawData[element.name] = element.value
+					if(element.type.toLowerCase() == 'radio' || element.type.toLowerCase() == 'checkbox'){
+						//Only store checked radios and checkboxes
+						if($('#'+element.id +':checked').length > 0){
+							rawData[element.name] = element.value
+						}
+					}else{
+						rawData[element.name] = element.value
+					}
+					
 				}
 		)
 		

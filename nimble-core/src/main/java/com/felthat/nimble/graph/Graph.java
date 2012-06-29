@@ -5,6 +5,7 @@ public interface Graph {
 	
 	/**
 	 * Store string at path do not effect other fields
+	 * TODO we need to make value an array I think, so we can support multiple values in 1 place
 	 * @param path
 	 * @param value
 	 */

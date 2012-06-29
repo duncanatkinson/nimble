@@ -24,7 +24,7 @@ public class InputTag extends FormInputTag {
 			setValue(valueFromGraph== null ? "" : valueFromGraph);
 		}else if(RADIO.equalsIgnoreCase(getType())){
 			if(getValue() != null && getValue().equals(valueFromGraph)){
-				setSelected("selected");
+				setChecked("checked");
 			}
 		}
 		return super.doStartTag();
