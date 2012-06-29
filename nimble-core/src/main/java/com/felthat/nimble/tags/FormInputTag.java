@@ -1,5 +1,8 @@
 package com.felthat.nimble.tags;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.jsp.PageContext;
 
 import com.felthat.nimble.graph.Graph;
@@ -19,9 +22,9 @@ public abstract class FormInputTag extends HtmlTag {
 		super();
 	}
 
-	protected String getValueFromGraph(PageContext pageContext){
+	protected List<String> getValueFromGraph(PageContext pageContext){
 		Graph graph = (Graph) pageContext.getSession().getAttribute(NimbleRestService.NIMBLE_GRAPH);
-		String value ="";
+		List<String> value =new ArrayList<String>();
 		if(graph!= null){
 			value = graph.getField(getName());
 		}

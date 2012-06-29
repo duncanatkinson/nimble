@@ -2,6 +2,8 @@ package com.felthat.nimble.tags;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
@@ -43,7 +45,9 @@ public class TestInputTag {
 	@Test
 	public void inputValueFromModel() throws JspException{
 		input.setName("myObject/mySubObject");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn("SomeValue");
+		ArrayList<String> value = new ArrayList<String>();
+		value.add("SomeValue");
+		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals("SomeValue", input.getValue());
 	}
@@ -59,9 +63,11 @@ public class TestInputTag {
 		input.setName("myObject/mySubObject");
 		input.setType("radio");
 		input.setValue("SomeValue");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn("SomeValue");
+		ArrayList<String> value = new ArrayList<String>();
+		value.add("SomeValue");
+		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
-		assertEquals("selected",input.getChecked());
+		assertEquals("checked",input.getChecked());
 	}
 	
 	@Test
@@ -69,7 +75,9 @@ public class TestInputTag {
 		input.setName("myObject/mySubObject");
 		input.setType("radio");
 		input.setValue("SomeValue");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn("NotSomeValue");
+		ArrayList<String> value = new ArrayList<String>();
+		value.add("NotSomeValue");
+		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals(null,input.getChecked());
 	}

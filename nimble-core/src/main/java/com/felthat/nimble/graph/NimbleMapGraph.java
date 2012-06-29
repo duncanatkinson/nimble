@@ -1,5 +1,7 @@
 package com.felthat.nimble.graph;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -26,13 +28,21 @@ public class NimbleMapGraph implements Graph {
 		this.graphObject = graphObject;
 	}
 
+	@Override
 	public synchronized void put(String key, String value) {
+		List<String> list = new ArrayList<String>();
+		list.add(value);
+		put(key,list);
+	}
+	
+	@Override
+	public synchronized void put(String key, List<String> value) {
 		StringTokenizer stringTokenizer = getTokenizer(key);
 		save(stringTokenizer, this.graphObject, value);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, String value) {
+	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, List<String> value) {
 		String key = tokenizer.nextToken();
 		if(tokenizer.hasMoreTokens()){
 			Map<String,Object> subGraph = null;
@@ -121,7 +131,7 @@ public class NimbleMapGraph implements Graph {
 			save(tokenizer,subGraph,newGraph);
 		}else{
 			Map<String, Object> map = ((NimbleMapGraph) newGraph).getGraphObject();
-			if(map.keySet().size() == 1 && map.get(key) instanceof String){
+			if(map.keySet().size() == 1 && map.get(key) instanceof String[]){
 				//Special case, we want to allow updates to a single field
 				//we assume this is desired when the value being set is a single item String.
 				graphToUpdate.put(key, map.get(key));
@@ -164,15 +174,29 @@ public class NimbleMapGraph implements Graph {
 		}
 	}
 
-	public synchronized String getField(String path) {
+	/**
+	 * I think this is a bit of a hacky method, not really needed either..
+	 */
+	public synchronized List<String> getField(String path) {
 		NimbleMapGraph graph = (NimbleMapGraph) get(path);
 		if(graph == null){
 			return null;
 		}
 		if(graph.graphObject.size() == 1 && graph.graphObject.containsKey(SINGLE_FIELD_VALUE)){
-			return (String) graph.getGraphObject().get(SINGLE_FIELD_VALUE);
+			Object value = graph.getGraphObject().get(SINGLE_FIELD_VALUE);
+			if(value instanceof List){
+				return (List) value;
+			}else if(value == null){
+				return null;
+			}else{
+				throw new RuntimeException("We shouldn't hit this");
+			}
+			 
 		}else{
-			return graph.toString();
+			String toString = graph.toString();
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(toString);
+			return arrayList;
 		} 
 	}
 

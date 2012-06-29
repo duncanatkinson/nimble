@@ -1,5 +1,7 @@
 package com.felthat.nimble.graph;
 
+import java.util.List;
+
 
 public interface Graph {
 	
@@ -9,8 +11,16 @@ public interface Graph {
 	 * @param path
 	 * @param value
 	 */
-	public void put(String path, String value);
+	public void put(String path, List<String> value);
 
+	/**
+	 * Store string at path do not effect other fields
+	 * TODO we need to make value an array I think, so we can support multiple values in 1 place
+	 * @param path
+	 * @param value
+	 */
+	public void put(String path, String value);
+	
 	/**
 	 * Overwrite a graph with a new one (
 	 * @param graph
@@ -35,7 +45,7 @@ public interface Graph {
 	 * This method is to be used to get a single String field from the graph
 	 * if used on a path containing a subgraph then the results are not guaranteed (depends on implementation)
 	 */
-	public String getField(String path);
+	public List<String> getField(String path);
 
 	/**
 	 * Deletes from path, any child nodes now empty will also be removed

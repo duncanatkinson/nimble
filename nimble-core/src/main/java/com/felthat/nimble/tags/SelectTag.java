@@ -1,5 +1,7 @@
 package com.felthat.nimble.tags;
 
+import java.util.List;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
@@ -16,7 +18,8 @@ public class SelectTag extends FormInputTag {
 
 	@Override
 	public int doStartTag() throws JspException {
-		String valueToSet = getValueFromGraph(pageContext);
+		List<String> value = getValueFromGraph(pageContext);
+		String valueToSet = value == null? "" : value.get(0); //TODO deal or warn about rest of array
 		pageContext.setAttribute(SELECT_TAG_VALUE, valueToSet, PageContext.PAGE_SCOPE);
 		super.doStartTag();
 		return EVAL_BODY_INCLUDE;//We have a body!

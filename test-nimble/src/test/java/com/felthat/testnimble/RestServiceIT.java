@@ -74,7 +74,7 @@ public class RestServiceIT {
 		client.executeMethod(putRequest);
 		
 		NimbleMapGraph graphUpdate = new NimbleMapGraph();
-		graphUpdate.put("color", "blue");
+		graphUpdate.put("value", "blue");
 		putRequest = makePut(makeNimbleRequest(graphUpdate),urlRestNimble + "/user/favorites/color");
 		int status = client.executeMethod(putRequest);
 		assertEquals(HttpStatus.CREATED, HttpStatus.valueOf(status));
@@ -85,9 +85,9 @@ public class RestServiceIT {
 		NimbleResponse nimbleResponse2 = mapper.readValue(responseString, NimbleResponse.class);
 		NimbleMapGraph updatedGraph = new NimbleMapGraph(nimbleResponse2.getData());
 		
-		assertEquals("Duncan", updatedGraph.getField("user/name"));
-		assertEquals("duncan.atkinson@nimble.com", updatedGraph.getField("user/email"));
-		assertEquals("blue", updatedGraph.getField("user/favorites/color"));
+		assertEquals("Duncan", updatedGraph.getField("user/name").get(0));
+		assertEquals("duncan.atkinson@nimble.com", updatedGraph.getField("user/email").get(0));
+		assertEquals("blue", updatedGraph.getField("user/favorites/color").get(0));
 		System.out.println(graph);
 	}
 	
