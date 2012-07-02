@@ -20,12 +20,15 @@ public class InputTag extends FormInputTag {
 	@Override
 	public int doStartTag() throws JspException {
 		addCssClass("nimble");
-		List<String> valueFromGraph = getValueFromGraph(pageContext);
-		
+		List<String> valueFromGraphList = getValueFromGraph(pageContext);
+		String valueFromGraph = "";
+		if(valueFromGraphList != null && valueFromGraphList.size() > 0){
+			 valueFromGraph = valueFromGraphList.get(0);//TODO deal or warn about rest of array
+		}
 		if(!"radio".equalsIgnoreCase(getType())){
-			setValue(valueFromGraph== null ? "" : valueFromGraph.get(0));//TODO deal or warn about rest of array
+			setValue(valueFromGraph);
 		}else if(RADIO.equalsIgnoreCase(getType())){
-			if(getValue() != null && getValue().equals(valueFromGraph.get(0))){
+			if(getValue() != null && getValue().equals(valueFromGraph)){
 				setChecked("checked");
 			}
 		}

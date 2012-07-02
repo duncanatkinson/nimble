@@ -1,6 +1,5 @@
 package com.felthat.nimble.graph;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -10,6 +9,7 @@ import java.util.TreeMap;
 public class NimbleMapGraph implements Graph {
 	
 	private static final String SINGLE_FIELD_VALUE = "value";
+	
 	private Map<String,Object> graphObject;
 	
 	public Map<String, Object> getGraphObject() {
@@ -21,7 +21,7 @@ public class NimbleMapGraph implements Graph {
 	}
 
 	public NimbleMapGraph() {
-		this.graphObject = new TreeMap<String,Object>();
+		this.graphObject = new NimbleMap<String,Object>();
 	}
 	
 	public NimbleMapGraph(Map<String,Object> graphObject) {
@@ -29,31 +29,24 @@ public class NimbleMapGraph implements Graph {
 	}
 
 	@Override
-	public synchronized void put(String key, String value) {
-		List<String> list = new ArrayList<String>();
-		list.add(value);
-		put(key,list);
-	}
-	
-	@Override
-	public synchronized void put(String key, List<String> value) {
+	public synchronized void put(String key, Object value) {
 		StringTokenizer stringTokenizer = getTokenizer(key);
 		save(stringTokenizer, this.graphObject, value);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, List<String> value) {
+	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, Object value) {
 		String key = tokenizer.nextToken();
 		if(tokenizer.hasMoreTokens()){
 			Map<String,Object> subGraph = null;
 			
 			Object object = graphMap.get(key);
-			if(object instanceof Map){
+			if(object instanceof NimbleMap){
 				subGraph = (Map<String, Object>) object;
 				//if it is not a map then it will be overwritten by a new one
 			}
 			if(subGraph == null){
-				subGraph = new TreeMap<String,Object>();
+				subGraph = new NimbleMap<String,Object>();
 				graphMap.put(key, subGraph);
 			}
 			save(tokenizer,subGraph, value);
@@ -153,7 +146,7 @@ public class NimbleMapGraph implements Graph {
 		String key = tokenizer.nextToken();
 		if(tokenizer.hasMoreTokens()){
 			Object value = graph.get(key);
-			if(value instanceof Map){
+			if(value instanceof  NimbleMap){ 
 				@SuppressWarnings("unchecked")
 				Map<String, Object> map = (Map<String, Object>) value;
 				return get(tokenizer,map);
@@ -162,42 +155,29 @@ public class NimbleMapGraph implements Graph {
 			}
 		}else{
 			Object value = graph.get(key);
-			if(value instanceof Map){
-				@SuppressWarnings("unchecked")
-				Map<String, Object> map = (Map<String, Object>) value;
-				return new NimbleMapGraph(map);
+			if(value instanceof NimbleMap){
+				return new NimbleMapGraph((Map<String, Object>) value);
 			}else{
 				Map<String, Object> mapForSingleValue = new TreeMap<String,Object>();
-				mapForSingleValue.put(SINGLE_FIELD_VALUE, graph.get(key));
+				mapForSingleValue.put(SINGLE_FIELD_VALUE, value);
 				return new NimbleMapGraph(mapForSingleValue);
 			}
 		}
 	}
 
-	/**
-	 * I think this is a bit of a hacky method, not really needed either..
-	 */
-	public synchronized List<String> getField(String path) {
+	
+	
+	
+	
+	@Override
+	public synchronized Object getValue(String path) {
 		NimbleMapGraph graph = (NimbleMapGraph) get(path);
 		if(graph == null){
 			return null;
 		}
-		if(graph.graphObject.size() == 1 && graph.graphObject.containsKey(SINGLE_FIELD_VALUE)){
-			Object value = graph.getGraphObject().get(SINGLE_FIELD_VALUE);
-			if(value instanceof List){
-				return (List) value;
-			}else if(value == null){
-				return null;
-			}else{
-				throw new RuntimeException("We shouldn't hit this");
-			}
-			 
-		}else{
-			String toString = graph.toString();
-			ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add(toString);
-			return arrayList;
-		} 
+		
+		Object value = graph.getGraphObject().get(SINGLE_FIELD_VALUE);
+		return value;
 	}
 
 	public static StringTokenizer getTokenizer(String key) {
@@ -210,4 +190,5 @@ public class NimbleMapGraph implements Graph {
 	public String toString() {
 		return NimbleMapGraph.class.getSimpleName() + ": " + this.graphObject.toString();
 	}
+
 }

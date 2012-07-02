@@ -1,25 +1,16 @@
 package com.felthat.nimble.graph;
 
-import java.util.List;
 
 
 public interface Graph {
 	
 	/**
 	 * Store string at path do not effect other fields
-	 * TODO we need to make value an array I think, so we can support multiple values in 1 place
 	 * @param path
 	 * @param value
 	 */
-	public void put(String path, List<String> value);
+	public void put(String path, Object value);
 
-	/**
-	 * Store string at path do not effect other fields
-	 * TODO we need to make value an array I think, so we can support multiple values in 1 place
-	 * @param path
-	 * @param value
-	 */
-	public void put(String path, String value);
 	
 	/**
 	 * Overwrite a graph with a new one (
@@ -40,13 +31,13 @@ public interface Graph {
 	 */
 	public Graph get(String path);
 	
-	
 	/**
-	 * This method is to be used to get a single String field from the graph
-	 * if used on a path containing a subgraph then the results are not guaranteed (depends on implementation)
+	 * get a value from graph, if referencing a graph object throws
+	 * @param path
+	 * @return
 	 */
-	public List<String> getField(String path);
-
+	public Object getValue(String path);
+		
 	/**
 	 * Deletes from path, any child nodes now empty will also be removed
 	 * @param path

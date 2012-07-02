@@ -24,11 +24,11 @@ public abstract class FormInputTag extends HtmlTag {
 
 	protected List<String> getValueFromGraph(PageContext pageContext){
 		Graph graph = (Graph) pageContext.getSession().getAttribute(NimbleRestService.NIMBLE_GRAPH);
-		List<String> value =new ArrayList<String>();
+		Object value =new ArrayList<String>();
 		if(graph!= null){
-			value = graph.getField(getName());
+			value = graph.get(getName());
 		}
-		return value;
+		return null;
 	}
 	
 	public String getAlt() {
