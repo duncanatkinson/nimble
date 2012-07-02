@@ -19,8 +19,15 @@ public interface Graph {
 	public void put(String path, Graph replacement);
 
 	/**
-	 * merge new graph into this one.
+	 * Merge new graph into this one, assume both graphs share the same root node.
 	 * @param graph
+	 */
+	public void merge(Graph graph);
+	
+	/**
+	 * Merge new graph into this one, root node to apply graph to is the one in the path
+	 * @param graph
+	 * @param path where the new graph should be applied
 	 */
 	public void merge(String path, Graph graph);
 	

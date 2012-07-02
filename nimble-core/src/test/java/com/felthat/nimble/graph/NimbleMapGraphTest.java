@@ -66,11 +66,11 @@ public class NimbleMapGraphTest {
 		
 		
 		Graph graphUpdate = new NimbleMapGraph();
-		graphUpdate.put("phoneNumbers","741258963");
+		graphUpdate.put("/person/phoneNumbers","741258963");
 		
-		graph.merge("person", graphUpdate);
+		graph.merge(graphUpdate);
 		assertEquals("741258963", graph.getValue("person/phoneNumbers"));
-		assertEquals("Brian", graph.getValue("person/brian"));
+		assertEquals("Brian", graph.getValue("person/name"));
 	}
 	
 	@Test
@@ -194,6 +194,26 @@ public class NimbleMapGraphTest {
 		assertEquals("Basingstoke", graph.getValue("person/address/town"));
 		assertEquals("Hampshire", graph.getValue("person/address/county"));
 		assertEquals("Cheddar", graph.getValue("person/cheese"));
+	}
+	
+	
+	@Test
+	public void testJustUpdateFromPath(){
+		Graph graph = new NimbleMapGraph();
+		graph.put("person/firstname","Duncan");
+		graph.put("person/surname","Atkinson");
+		Graph firstAddress = makeAddress("FANUM HOUSE", "RG21 4EA", "Basingstoke", "Hampshire");
+		graph.put("person/address", firstAddress);
+		
+		
+		Graph update = makeAddress("Noddys House", "NoddyLand", "NodVille", "Hampshire");
+		graph.merge("/person/address", update);
+		
+		assertEquals("Duncan", graph.getValue("person/firstname"));
+		assertEquals("Noddys House", graph.getValue("person/address/housenumber"));
+		assertEquals("NoddyLand", graph.getValue("person/address/postcode"));
+		assertEquals("NodVille", graph.getValue("person/address/town"));
+		assertEquals("Hampshire", graph.getValue("person/address/county"));
 	}
 	
 	@Test

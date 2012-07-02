@@ -82,6 +82,12 @@ public class NimbleMapGraph implements Graph {
 		}
 	}
 	
+
+	@Override
+	public void merge(Graph graph) {
+		merge("/",graph);
+	}
+	
 	public synchronized void merge(String path, Graph graph) {
 		StringTokenizer stringTokenizer = getTokenizer(path);
 		if(stringTokenizer.hasMoreTokens()){
@@ -98,7 +104,7 @@ public class NimbleMapGraph implements Graph {
 		for(String key: mergeGraph.keySet()){
 			if(!targetGraph.containsKey(key) || targetGraph.get(key) instanceof String){
 				targetGraph.put(key, mergeGraph.get(key));
-			}else if(mergeGraph.get(key) instanceof Map<?,?>){
+			}else if(mergeGraph.get(key) instanceof NimbleMap){
 				merge((Map<String, Object>)targetGraph.get(key),(Map<String, Object>)mergeGraph.get(key));
 			}else{
 				targetGraph.put(key, mergeGraph.get(key));
@@ -190,5 +196,6 @@ public class NimbleMapGraph implements Graph {
 	public String toString() {
 		return NimbleMapGraph.class.getSimpleName() + ": " + this.graphObject.toString();
 	}
+
 
 }
