@@ -1,7 +1,6 @@
 package com.felthat.nimble.tags;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.jsp.PageContext;
 
@@ -22,13 +21,13 @@ public abstract class FormInputTag extends HtmlTag {
 		super();
 	}
 
-	protected List<String> getValueFromGraph(PageContext pageContext){
+	protected Object getValueFromGraph(PageContext pageContext){
 		Graph graph = (Graph) pageContext.getSession().getAttribute(NimbleRestService.NIMBLE_GRAPH);
 		Object value =new ArrayList<String>();
 		if(graph!= null){
 			value = graph.get(getName());
 		}
-		return null;
+		return value;
 	}
 	
 	public String getAlt() {

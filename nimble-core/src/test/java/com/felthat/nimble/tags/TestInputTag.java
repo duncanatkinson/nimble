@@ -47,7 +47,7 @@ public class TestInputTag {
 		input.setName("myObject/mySubObject");
 		ArrayList<String> value = new ArrayList<String>();
 		value.add("SomeValue");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals("SomeValue", input.getValue());
 	}
@@ -65,7 +65,7 @@ public class TestInputTag {
 		input.setValue("SomeValue");
 		ArrayList<String> value = new ArrayList<String>();
 		value.add("SomeValue");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals("checked",input.getChecked());
 	}
@@ -77,7 +77,7 @@ public class TestInputTag {
 		input.setValue("SomeValue");
 		ArrayList<String> value = new ArrayList<String>();
 		value.add("NotSomeValue");
-		when(nimbleGraph.getField("myObject/mySubObject")).thenReturn(value);
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals(null,input.getChecked());
 	}

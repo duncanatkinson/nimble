@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.jsp.JspException;
 
+import com.felthat.nimble.graph.NimbleAccessHelper;
+
 
 
 public class InputTag extends FormInputTag {
@@ -20,15 +22,13 @@ public class InputTag extends FormInputTag {
 	@Override
 	public int doStartTag() throws JspException {
 		addCssClass("nimble");
-		List<String> valueFromGraphList = getValueFromGraph(pageContext);
-		String valueFromGraph = "";
-		if(valueFromGraphList != null && valueFromGraphList.size() > 0){
-			 valueFromGraph = valueFromGraphList.get(0);//TODO deal or warn about rest of array
-		}
+		Object valueFromGraph = getValueFromGraph(pageContext);
+		String stringValueFromGraph = NimbleAccessHelper.getAsString(valueFromGraph);
+		
 		if(!"radio".equalsIgnoreCase(getType())){
-			setValue(valueFromGraph);
+			setValue(stringValueFromGraph);
 		}else if(RADIO.equalsIgnoreCase(getType())){
-			if(getValue() != null && getValue().equals(valueFromGraph)){
+			if(getValue() != null && getValue().equals(stringValueFromGraph)){
 				setChecked("checked");
 			}
 		}

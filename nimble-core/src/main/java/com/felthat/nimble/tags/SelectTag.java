@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
+import com.felthat.nimble.graph.NimbleAccessHelper;
+
 public class SelectTag extends FormInputTag {
 
 	private static final long serialVersionUID = 1L;
@@ -18,9 +20,8 @@ public class SelectTag extends FormInputTag {
 
 	@Override
 	public int doStartTag() throws JspException {
-		List<String> value = getValueFromGraph(pageContext);
-		String valueToSet = value == null || value.size() == 0 ? "" : value.get(0); //TODO deal or warn about rest of array
-		pageContext.setAttribute(SELECT_TAG_VALUE, valueToSet, PageContext.PAGE_SCOPE);
+		String value = NimbleAccessHelper.getAsString(getValueFromGraph(pageContext));
+		pageContext.setAttribute(SELECT_TAG_VALUE, value, PageContext.PAGE_SCOPE);
 		super.doStartTag();
 		return EVAL_BODY_INCLUDE;//We have a body!
 	}
