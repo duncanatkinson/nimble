@@ -43,8 +43,9 @@ public class TestInputTag {
 	}
 	
 	@Test
-	public void inputValueFromModel() throws JspException{
+	public void doStartTag_inputValuePickedUpFromModel() throws JspException{
 		input.setName("myObject/mySubObject");
+		input.setType("text");
 		ArrayList<String> value = new ArrayList<String>();
 		value.add("SomeValue");
 		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
@@ -68,6 +69,25 @@ public class TestInputTag {
 		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
 		input.doStartTag();
 		assertEquals("checked",input.getChecked());
+	}
+	
+	@Test
+	public void doStartTag_emptyModelValueHardcoded() throws JspException{
+		input.setName("myObject/mySubObject");
+		input.setType("radio");
+		input.setValue("SomeValue");
+		input.doStartTag();
+		assertEquals("SomeValue",input.getValue());
+	}
+	
+	@Test
+	public void doStartTag_TagValueOverriddenByModel() throws JspException{
+		input.setName("myObject/mySubObject");
+		input.setType("text");
+		input.setValue("SomeValue");
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn("ModelValue");
+		input.doStartTag();
+		assertEquals("ModelValue",input.getValue());
 	}
 	
 	@Test

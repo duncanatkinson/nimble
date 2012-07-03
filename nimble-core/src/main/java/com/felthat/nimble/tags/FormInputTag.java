@@ -14,6 +14,7 @@ public abstract class FormInputTag extends HtmlTag {
 	public static final String RADIO = "radio";
 	public static final String CHECKBOX = "checkbox";
 	public static final String HIDDEN = "hidden";
+	public static final String TEXT = "text";
 
 	protected String tagName;
 
@@ -23,9 +24,9 @@ public abstract class FormInputTag extends HtmlTag {
 
 	protected Object getValueFromGraph(PageContext pageContext){
 		Graph graph = (Graph) pageContext.getSession().getAttribute(NimbleRestService.NIMBLE_GRAPH);
-		Object value =new ArrayList<String>();
+		Object value =null;
 		if(graph!= null){
-			value = graph.get(getName());
+			value = graph.getValue(getName());
 		}
 		return value;
 	}

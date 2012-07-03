@@ -85,9 +85,9 @@ public class RestServiceIT {
 		NimbleResponse nimbleResponse2 = mapper.readValue(responseString, NimbleResponse.class);
 		NimbleMapGraph updatedGraph = new NimbleMapGraph(nimbleResponse2.getData());
 		
-		assertEquals("Duncan", updatedGraph.getField("user/name").get(0));
-		assertEquals("duncan.atkinson@nimble.com", updatedGraph.getField("user/email").get(0));
-		assertEquals("blue", updatedGraph.getField("user/favorites/color").get(0));
+		assertEquals("Duncan", updatedGraph.getValue("user/name"));
+		assertEquals("duncan.atkinson@nimble.com", updatedGraph.getValue("user/email"));
+		assertEquals("blue", updatedGraph.getValue("user/favorites/color"));
 		System.out.println(graph);
 	}
 	
@@ -168,7 +168,7 @@ public class RestServiceIT {
 
 
 	private void assertGraphsEqual(NimbleMapGraph graph, String namePath, NimbleMapGraph graph2) {
-		assertEquals(graph.getField(namePath),graph2.getField(namePath));
+		assertEquals(graph.getValue(namePath),graph2.getValue(namePath));
 	}
 
 	private PutMethod makePut(Object nimbleRequest, String uri) throws IOException, JsonGenerationException,

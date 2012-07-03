@@ -1,10 +1,7 @@
 package com.felthat.nimble.tags;
 
-import java.util.List;
-
 import javax.servlet.jsp.JspException;
 
-import com.felthat.nimble.graph.NimbleAccessHelper;
 
 
 
@@ -25,9 +22,9 @@ public class InputTag extends FormInputTag {
 		Object valueFromGraph = getValueFromGraph(pageContext);
 		String stringValueFromGraph = NimbleAccessHelper.getAsString(valueFromGraph);
 		
-		if(!"radio".equalsIgnoreCase(getType())){
+		if(TEXT.equalsIgnoreCase(getType())){
 			setValue(stringValueFromGraph);
-		}else if(RADIO.equalsIgnoreCase(getType())){
+		}else if(CHECKBOX.equalsIgnoreCase(getType()) || RADIO.equalsIgnoreCase(getType())){
 			if(getValue() != null && getValue().equals(stringValueFromGraph)){
 				setChecked("checked");
 			}

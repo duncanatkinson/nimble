@@ -6,11 +6,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.felthat.nimble.graph.NimbleMapGraph;
@@ -18,12 +20,16 @@ import com.felthat.nimble.graph.NimbleMapGraph;
 
 
 @Controller
-@RequestMapping(value=NimbleRestService.ROOT_PATH)
+@SessionAttributes(NimbleRestService.NIMBLE_GRAPH)
+@RequestMapping(NimbleRestService.ROOT_PATH)
 public class NimbleRestService {
 	
 	static final String ROOT_PATH = "/nimble";
 
 	public static final String NIMBLE_GRAPH = "NIMBLE_GRAPH";
+	
+	
+	private NimbleMapGraph graph;
 
 	@ResponseStatus(value=HttpStatus.OK)
 	@RequestMapping(value="/**", method=RequestMethod.GET)
@@ -38,8 +44,11 @@ public class NimbleRestService {
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="/**", method=RequestMethod.PUT)
-	public void create(@RequestBody NimbleRequest requestObject, HttpServletRequest request, HttpServletResponse httpServletResponse){
-		NimbleMapGraph graph = getGraphFromSession(request.getSession());
+	public void create(
+			@RequestBody NimbleRequest requestObject, 
+			@ModelAttribute(NIMBLE_GRAPH) NimbleMapGraph graph, 
+			HttpServletRequest request){
+//		NimbleMapGraph graph = getGraphFromSession(request.getSession());
 		String path = getPath(request);
 		NimbleMapGraph subGraph = new NimbleMapGraph(requestObject.getData());
 		graph.put(path, subGraph);

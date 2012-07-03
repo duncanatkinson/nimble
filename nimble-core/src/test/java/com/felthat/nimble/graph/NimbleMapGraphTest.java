@@ -1,6 +1,6 @@
 package com.felthat.nimble.graph;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -282,7 +282,19 @@ public class NimbleMapGraphTest {
 //		graph.put("/listOfStrings", stringList);
 	}
 
-
+	@Test
+	public void testGets(){	
+		Graph graph = new NimbleMapGraph();
+		graph.put("/customer/name", "Duncan");
+		graph.put("customer/age", 10);
+		graph.put("customer/address", makeAddress("10", "SW1 3RJ", "London", "London"));
+		graph.put("customer/products/motorInsurancePolicy/reference", "I67529847629701296A");
+		assertEquals("Duncan", graph.get("customer/name").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
+		assertEquals("Duncan", graph.get("customer/name").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
+		assertEquals("SW1 3RJ", graph.get("customer/address/postcode").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
+		assertEquals("SW1 3RJ", graph.get("customer").get("address").getValue("postcode"));
+	}
+	
 	private Graph  makeAddress(String houseNumber,String postcode, String town, String county) {
 		Graph graph = new NimbleMapGraph();
 		graph.put("postcode",postcode);

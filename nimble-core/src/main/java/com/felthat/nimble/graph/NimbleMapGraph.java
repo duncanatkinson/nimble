@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 public class NimbleMapGraph implements Graph {
 	
-	private static final String SINGLE_FIELD_VALUE = "value";
+	public static final String SINGLE_FIELD_VALUE = "value";
 	
 	private Map<String,Object> graphObject;
 	
@@ -170,20 +170,17 @@ public class NimbleMapGraph implements Graph {
 			}
 		}
 	}
-
-	
-	
-	
 	
 	@Override
 	public synchronized Object getValue(String path) {
 		NimbleMapGraph graph = (NimbleMapGraph) get(path);
 		if(graph == null){
 			return null;
+		}else if(graph.getGraphObject().keySet().size() > 1){
+			return graph;
+		}else{
+			return graph.getGraphObject().get(SINGLE_FIELD_VALUE);
 		}
-		
-		Object value = graph.getGraphObject().get(SINGLE_FIELD_VALUE);
-		return value;
 	}
 
 	public static StringTokenizer getTokenizer(String key) {
