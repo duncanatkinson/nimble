@@ -17,7 +17,7 @@ var nimble = {}; //nimble namespace
 					if(element.type.toLowerCase() == 'radio' || element.type.toLowerCase() == 'checkbox'){
 						//Only store checked radios and checkboxes
 						if($('#'+element.id +':checked').length > 0){
-							rawData[element.name] = element.value
+							rawData[element.name] = [].concat(rawData[element.name]).concat(element.value)
 						}
 					}else{
 						rawData[element.name] = element.value
