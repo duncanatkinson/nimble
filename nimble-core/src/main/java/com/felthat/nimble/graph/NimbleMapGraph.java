@@ -8,7 +8,15 @@ import java.util.TreeMap;
 
 public class NimbleMapGraph implements Graph {
 	
-	private Map<String,Object> graphObject;
+	/**
+	 * Simulate a Single Object in the root of a graph
+	 */
+	private final static String ROOT_OBJECT_KEY = "ROOT_OBJECT_KEY";
+	
+	/**
+	 * Our Data store, values are either Maps or Strings.
+	 */
+	private Map<String,Object> graphObject; 
 	
 	public Map<String, Object> getGraphObject() {
 		return graphObject;
@@ -34,9 +42,13 @@ public class NimbleMapGraph implements Graph {
 	
 	@SuppressWarnings("unchecked")
 	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, Object value) {
-		String key = ""; //default key is an empty string for the root object being a value
+		String key = "_rootObjectKey";
+		if(tokenizer.hasMoreElements()){
+			key = tokenizer.nextToken();	
+		}
+		
 		if(tokenizer.hasMoreTokens()){
-			key = tokenizer.nextToken();
+			
 			Map<String,Object> subGraph = null;
 			
 			Object object = graphMap.get(key);
@@ -82,7 +94,9 @@ public class NimbleMapGraph implements Graph {
 	}
 	
 	public synchronized void put(String value) {
-		this.graphObject.put("", value);
+		//We blat the map, store only single value
+		this.graphObject = new LinkedHashMap<String,Object>();
+		this.graphObject.put(ROOT_OBJECT_KEY, value);
 	}
 	
 

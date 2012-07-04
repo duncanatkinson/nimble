@@ -1,15 +1,12 @@
 package com.felthat.nimble.graph;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.felthat.nimble.graph.Graph;
-import com.felthat.nimble.graph.NimbleMapGraph;
 
 public class NimbleMapGraphTest {
 
@@ -37,6 +34,15 @@ public class NimbleMapGraphTest {
 	public void testPut_root(){
 		Graph graph = new NimbleMapGraph();
 		graph.put("/","Duncan");
+		assertEquals("Duncan",graph.getValue("/"));
+	}
+	
+	@Test
+	public void testPut_rootSubObject(){
+		Graph graph = new NimbleMapGraph();
+		Graph subgraph = new NimbleMapGraph();
+		subgraph.put("/","Duncan");
+		graph.put("/",subgraph);
 		assertEquals("Duncan",graph.getValue("/"));
 	}
 
@@ -282,12 +288,15 @@ public class NimbleMapGraphTest {
 	}
 	
 	
-	public void testgetValue(){
+	@Test
+	public void nimbleGraphValueStorage(){
 		Graph graph = new NimbleMapGraph();
-		ArrayList<String> stringList = new ArrayList<String>();
-		stringList.add("String1");
-		stringList.add("String2");
-//		graph.put("/listOfStrings", stringList);
+		graph.put("customer","Duncan");
+		assertEquals("Duncan", graph.getValue("customer"));
+		graph.put("Duncan"); //root object is now just the string duncan.
+		assertEquals("Duncan", graph.getValue("/"));
+		assertEquals("Duncan", graph.getValue());
+		assertNull("Customer should be removed", graph.getValue("customer"));
 	}
 
 	@Test
