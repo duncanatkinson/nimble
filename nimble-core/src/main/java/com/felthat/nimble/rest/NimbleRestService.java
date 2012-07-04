@@ -1,5 +1,7 @@
 package com.felthat.nimble.rest;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.felthat.nimble.graph.Graph;
-import com.felthat.nimble.graph.NimbleMap;
 import com.felthat.nimble.graph.NimbleMapGraph;
 
 
@@ -36,7 +37,7 @@ public class NimbleRestService {
 		String path = getPath(request);
 		graph = (Graph) graph.get(path);
 		String baseURL = getBaseURL(request);
-		NimbleResponse response = new NimbleResponse((NimbleMap<String, Object>) graph,baseURL);//TODO avoid this cast
+		NimbleResponse response = new NimbleResponse((NimbleMapGraph)graph,baseURL);//TODO remove this unfortunate cast somehow
 		return response;
 	}
 	

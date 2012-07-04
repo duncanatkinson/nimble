@@ -2,14 +2,13 @@ package com.felthat.nimble.rest;
 
 import java.io.Serializable;
 import java.util.List;
-
-import com.felthat.nimble.graph.NimbleMap;
+import java.util.Map;
 
 public class NimbleRequest implements Serializable {
 	
 	private static final long serialVersionUID = 6320709312448457036L;
 	
-	private NimbleMap<String,Object> data;
+	private Map<String,Object> data;
 	private List<String> field;
 
 	public List<String> getField() {
@@ -20,11 +19,11 @@ public class NimbleRequest implements Serializable {
 		this.field = field;
 	}
 
-	public NimbleMap<String, Object> getData() {
+	public Map<String, Object> getData() {
 		return data;
 	}
 
-	public void setData(NimbleMap<String, Object> data) {
+	public void setData(Map<String, Object> data) {
 		this.data = data;
 	}
 }

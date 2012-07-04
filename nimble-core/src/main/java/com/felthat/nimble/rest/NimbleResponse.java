@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.felthat.nimble.graph.Graph;
-import com.felthat.nimble.graph.NimbleMap;
+import com.felthat.nimble.graph.NimbleMapGraph;
 
 public class NimbleResponse implements Serializable {
 	
 	private static final long serialVersionUID = 6320709312448457036L;
 	
-	private NimbleMap<String,Object> data;
+	private Map<String,Object> data;
 
-	public NimbleResponse(NimbleMap<String, Object> graphObject,String url) {
+	public NimbleResponse(Map<String, Object> graphObject,String url) {
 		this.data = graphObject;
 		addUrls(graphObject, url);
 	}
@@ -20,11 +20,15 @@ public class NimbleResponse implements Serializable {
 	public NimbleResponse() {
 	}
 
-	public NimbleMap<String, Object> getData() {
+	public NimbleResponse(NimbleMapGraph graph, String baseURL) {
+		this(graph.getGraphObject(),baseURL);
+	}
+
+	public Map<String, Object> getData() {
 		return data;
 	}
 
-	public void setData(NimbleMap<String, Object> data) {
+	public void setData(Map<String, Object> data) {
 		this.data = data;
 	}
 	

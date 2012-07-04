@@ -6,8 +6,6 @@ import org.hamcrest.Matcher;
 import org.mockito.ArgumentMatcher;
 
 import com.felthat.nimble.graph.Graph;
-import com.felthat.nimble.graph.NimbleMap;
-import com.felthat.nimble.graph.NimbleMapGraph;
 
 public class NimbleMapGraphMatcher extends ArgumentMatcher<Graph>{
 
@@ -22,19 +20,14 @@ public class NimbleMapGraphMatcher extends ArgumentMatcher<Graph>{
 			if(argument == null){
 				matchingFailureString = "null";
 				return false;
-			}
-			if(!(argument instanceof Graph)){
+			}else if(!(argument instanceof Graph)){
 				matchingFailureString = argument.toString();
 				return false;
+			}else{
+				Graph graph = (Graph) argument;
+				matchingFailureString = graph.toString();
+				return true;
 			}
-			Map graph = (Map) argument;
-			
-			boolean isNimbleMap = isNimbleMap(graph);
-			
-			if(!isNimbleMap){
-				matchingFailureString = "Not Nimble Map";
-			}
-			return isNimbleMap;
 		}
 		
 		

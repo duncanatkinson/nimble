@@ -1,5 +1,6 @@
 package com.felthat.nimble.graph;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -7,21 +8,21 @@ import java.util.TreeMap;
 
 public class NimbleMapGraph implements Graph {
 	
-	private NimbleMap<String,Object> graphObject;
+	private Map<String,Object> graphObject;
 	
-	public NimbleMap<String, Object> getGraphObject() {
+	public Map<String, Object> getGraphObject() {
 		return graphObject;
 	}
 
-	public void setGraphObject(NimbleMap<String, Object> graphObject) {
+	public void setGraphObject(Map<String, Object> graphObject) {
 		this.graphObject = graphObject;
 	}
 
 	public NimbleMapGraph() {
-		this.graphObject = new NimbleMap<String,Object>();
+		this.graphObject = new LinkedHashMap<String,Object>();
 	}
 	
-	public NimbleMapGraph(NimbleMap<String,Object> graphObject) {
+	public NimbleMapGraph(Map<String,Object> graphObject) {
 		this.graphObject = graphObject;
 	}
 
@@ -39,12 +40,12 @@ public class NimbleMapGraph implements Graph {
 			Map<String,Object> subGraph = null;
 			
 			Object object = graphMap.get(key);
-			if(object instanceof NimbleMap){
+			if(object instanceof Map){
 				subGraph = (Map<String, Object>) object;
 				//if it is not a map then it will be overwritten by a new one
 			}
 			if(subGraph == null){
-				subGraph = new NimbleMap<String,Object>();
+				subGraph = new LinkedHashMap<String,Object>();
 				graphMap.put(key, subGraph);
 			}
 			save(tokenizer,subGraph, value);
@@ -106,7 +107,7 @@ public class NimbleMapGraph implements Graph {
 		for(String key: mergeGraph.keySet()){
 			if(!targetGraph.containsKey(key) || targetGraph.get(key) instanceof String){
 				targetGraph.put(key, mergeGraph.get(key));
-			}else if(mergeGraph.get(key) instanceof NimbleMap){
+			}else if(mergeGraph.get(key) instanceof Map){
 				merge((Map<String, Object>)targetGraph.get(key),(Map<String, Object>)mergeGraph.get(key));
 			}else{
 				targetGraph.put(key, mergeGraph.get(key));
@@ -154,7 +155,7 @@ public class NimbleMapGraph implements Graph {
 		String key = tokenizer.nextToken();
 		if(tokenizer.hasMoreTokens()){
 			Object value = graph.get(key);
-			if(value instanceof  NimbleMap){ 
+			if(value instanceof  Map){ 
 				@SuppressWarnings("unchecked")
 				Map<String, Object> map = (Map<String, Object>) value;
 				return get(tokenizer,map);
@@ -163,10 +164,10 @@ public class NimbleMapGraph implements Graph {
 			}
 		}else{
 			Object value = graph.get(key);
-			if(value instanceof NimbleMap){
-				return new NimbleMapGraph((NimbleMap<String, Object>) value);
+			if(value instanceof Map){
+				return new NimbleMapGraph((Map<String, Object>) value);
 			}else{
-				NimbleMap<String, Object> mapForSingleValue = new NimbleMap<String,Object>();
+				Map<String, Object> mapForSingleValue = new LinkedHashMap<String,Object>();
 				mapForSingleValue.put("", value);
 				return new NimbleMapGraph(mapForSingleValue);
 			}
