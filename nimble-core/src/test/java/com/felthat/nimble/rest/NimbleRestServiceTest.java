@@ -1,6 +1,10 @@
 package com.felthat.nimble.rest;
 
-import static org.junit.Assert.*;
+import static com.felthat.nimble.rest.NimbleMapGraphMatcher.isGraphUsingNimbleMap;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,32 +14,34 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import static org.mockito.Mockito.*;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.felthat.nimble.graph.Graph;
-import com.felthat.nimble.graph.NimbleMapGraph;
+import com.felthat.nimble.graph.NimbleMap;
 
 public class NimbleRestServiceTest {
 
 	private NimbleRestService nimbleRestService;
-	private HttpServletRequest requestMock;
-	private HttpServletResponse responseMock;
-	private HttpSession sessionMock;
-	private Graph graphMock;
+	
+	@Mock private HttpServletRequest requestMock;
+	@Mock private HttpServletResponse responseMock;
+	@Mock private HttpSession sessionMock;
+	@Mock private Graph graphMock;
+	
+	
 	
 	@Before
 	public void setup(){
+		MockitoAnnotations.initMocks(this);
 		nimbleRestService = new NimbleRestService();
-		requestMock = new MockHttpServletRequest();
-		responseMock = new MockHttpServletResponse();
-		sessionMock = new MockHttpSession();
-		graphMock = Mockito.mock(Graph.class);
+//		requestMock = new MockHttpServletRequest();
+//		responseMock = new MockHttpServletResponse();
+//		sessionMock = new MockHttpSession();
+//		graphMock = Mockito.mock(Graph.class);
 		when(requestMock.getSession()).thenReturn(sessionMock);
 		when(sessionMock.getAttribute(NimbleRestService.NIMBLE_GRAPH)).thenReturn(graphMock);
 	}
@@ -47,11 +53,26 @@ public class NimbleRestServiceTest {
 
 	@Test
 	public final void testCreate() {
-		NimbleRequest requestObject = new NimbleRequest();
-		Map<String, Object> data = new LinkedHashMap<String,Object>();
-		data.put("name", "duncan");
-		requestObject.setData(data);
-		nimbleRestService.create(requestObject);	
+		NimbleRequest data = new NimbleRequest();
+		NimbleMap<String, Object> map = new NimbleMap<String,Object>();
+		map.put("name", "duncan");
+		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("name");
+		data.setData(map);
+		nimbleRestService.create(data,requestMock);
+		verify(graphMock).put(eq("name"), argThat(isGraphUsingNimbleMap()));
+	}
+	
+	@Test
+	public final void testCreate_SubObjectsAreLinkedHashMaps() {
+		NimbleRequest data = new NimbleRequest();
+		NimbleMap<String, Object> map = new NimbleMap<String,Object>();
+		Map<String, Object> linkedHashMap = new LinkedHashMap<String, Object>();
+		linkedHashMap.put("something", "value");
+		map.put("name", linkedHashMap);
+		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("name");
+		data.setData(map);
+		nimbleRestService.create(data,requestMock);
+		verify(graphMock).put(eq("name"), argThat(isGraphUsingNimbleMap()));
 	}
 
 	@Test

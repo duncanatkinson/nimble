@@ -11,6 +11,12 @@ public interface Graph {
 	 */
 	public void put(String path, Object value);
 
+	/**
+	 * Store string in root
+	 * @param path
+	 * @param value
+	 */
+	public void put(String value);
 	
 	/**
 	 * Overwrite a graph with a new one (
@@ -50,5 +56,11 @@ public interface Graph {
 	 * @param path
 	 */
 	public void delete(String path);
+
+	/**
+	 * For returning the value of the whole element, Could be a single string
+	 * @return
+	 */
+	public Object getValue();
 
 }

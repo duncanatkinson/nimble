@@ -1,6 +1,5 @@
 package com.felthat.nimble.graph;
 
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -8,15 +7,13 @@ import java.util.TreeMap;
 
 public class NimbleMapGraph implements Graph {
 	
-	public static final String SINGLE_FIELD_VALUE = "value";
+	private NimbleMap<String,Object> graphObject;
 	
-	private Map<String,Object> graphObject;
-	
-	public Map<String, Object> getGraphObject() {
+	public NimbleMap<String, Object> getGraphObject() {
 		return graphObject;
 	}
 
-	public void setGraphObject(Map<String, Object> graphObject) {
+	public void setGraphObject(NimbleMap<String, Object> graphObject) {
 		this.graphObject = graphObject;
 	}
 
@@ -24,7 +21,7 @@ public class NimbleMapGraph implements Graph {
 		this.graphObject = new NimbleMap<String,Object>();
 	}
 	
-	public NimbleMapGraph(Map<String,Object> graphObject) {
+	public NimbleMapGraph(NimbleMap<String,Object> graphObject) {
 		this.graphObject = graphObject;
 	}
 
@@ -36,8 +33,9 @@ public class NimbleMapGraph implements Graph {
 	
 	@SuppressWarnings("unchecked")
 	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, Object value) {
-		String key = tokenizer.nextToken();
+		String key = ""; //default key is an empty string for the root object being a value
 		if(tokenizer.hasMoreTokens()){
+			key = tokenizer.nextToken();
 			Map<String,Object> subGraph = null;
 			
 			Object object = graphMap.get(key);
@@ -80,6 +78,10 @@ public class NimbleMapGraph implements Graph {
 			this.graphObject.clear();
 			this.graphObject.putAll(((NimbleMapGraph) graph).getGraphObject());
 		}
+	}
+	
+	public synchronized void put(String value) {
+		this.graphObject.put("", value);
 	}
 	
 
@@ -162,10 +164,10 @@ public class NimbleMapGraph implements Graph {
 		}else{
 			Object value = graph.get(key);
 			if(value instanceof NimbleMap){
-				return new NimbleMapGraph((Map<String, Object>) value);
+				return new NimbleMapGraph((NimbleMap<String, Object>) value);
 			}else{
-				Map<String, Object> mapForSingleValue = new TreeMap<String,Object>();
-				mapForSingleValue.put(SINGLE_FIELD_VALUE, value);
+				NimbleMap<String, Object> mapForSingleValue = new NimbleMap<String,Object>();
+				mapForSingleValue.put("", value);
 				return new NimbleMapGraph(mapForSingleValue);
 			}
 		}
@@ -178,10 +180,16 @@ public class NimbleMapGraph implements Graph {
 			return null;
 		}else if(graph.getGraphObject().keySet().size() > 1){
 			return graph;
-		}else{
-			return graph.getGraphObject().get(SINGLE_FIELD_VALUE);
+		}else{	
+			Object object = graph.getGraphObject().get(graph.getGraphObject().keySet().iterator().next());
+			return object;
 		}
 	}
+	
+	@Override
+	public Object getValue() {
+		return graphObject.get(getGraphObject().keySet().iterator().next());
+	};
 
 	public static StringTokenizer getTokenizer(String key) {
 		String slashChangedKey = key.replace('\\','/');

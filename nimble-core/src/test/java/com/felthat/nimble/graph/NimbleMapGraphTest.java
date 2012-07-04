@@ -32,6 +32,14 @@ public class NimbleMapGraphTest {
 		Graph sameVehicle = breakdownGraph.get("vehicle");
 		assertEquals(((NimbleMapGraph)vehicleGraph).getGraphObject(),((NimbleMapGraph)sameVehicle).getGraphObject());
 	}
+
+	@Test
+	public void testPut_root(){
+		Graph graph = new NimbleMapGraph();
+		graph.put("/","Duncan");
+		assertEquals("Duncan",graph.getValue("/"));
+	}
+
 	
 	@Test
 	public void testSlashWrongGraph(){
@@ -47,7 +55,7 @@ public class NimbleMapGraphTest {
 		assertEquals("Duncan", graph.getValue("person/name"));
 		
 		Graph graphUpdate = new NimbleMapGraph();
-		graphUpdate.put("value","Jeph");
+		graphUpdate.put("","Jeph");
 		
 		graph.put("person/name", graphUpdate);
 		assertEquals("Jeph", graph.getValue("person/name"));
@@ -289,9 +297,9 @@ public class NimbleMapGraphTest {
 		graph.put("customer/age", 10);
 		graph.put("customer/address", makeAddress("10", "SW1 3RJ", "London", "London"));
 		graph.put("customer/products/motorInsurancePolicy/reference", "I67529847629701296A");
-		assertEquals("Duncan", graph.get("customer/name").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
-		assertEquals("Duncan", graph.get("customer/name").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
-		assertEquals("SW1 3RJ", graph.get("customer/address/postcode").getValue(NimbleMapGraph.SINGLE_FIELD_VALUE));
+		assertEquals("Duncan", graph.get("customer/name").getValue());
+		assertEquals("Duncan", graph.get("customer/name").getValue());
+		assertEquals("SW1 3RJ", graph.get("customer/address/postcode").getValue());
 		assertEquals("SW1 3RJ", graph.get("customer").get("address").getValue("postcode"));
 	}
 	

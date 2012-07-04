@@ -56,7 +56,6 @@ public class RestServiceIT {
 	public void performPut() throws HttpException, IOException {
 		NimbleMapGraph graph = new NimbleMapGraph();
 		graph.put("name", "Duncan");
-		System.out.println(urlRestNimble);
 		PutMethod putRequest = makePut(makeNimbleRequest(graph),urlRestNimble);
 		int response = client.executeMethod(putRequest);
 		System.out.println(putRequest.getResponseBodyAsString());
@@ -74,7 +73,7 @@ public class RestServiceIT {
 		client.executeMethod(putRequest);
 		
 		NimbleMapGraph graphUpdate = new NimbleMapGraph();
-		graphUpdate.put("value", "blue");
+		graphUpdate.put("/","blue");
 		putRequest = makePut(makeNimbleRequest(graphUpdate),urlRestNimble + "/user/favorites/color");
 		int status = client.executeMethod(putRequest);
 		assertEquals(HttpStatus.CREATED, HttpStatus.valueOf(status));

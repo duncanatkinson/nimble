@@ -3,13 +3,16 @@ package com.felthat.nimble.rest;
 import java.io.Serializable;
 import java.util.Map;
 
+import com.felthat.nimble.graph.Graph;
+import com.felthat.nimble.graph.NimbleMap;
+
 public class NimbleResponse implements Serializable {
 	
 	private static final long serialVersionUID = 6320709312448457036L;
 	
-	private Map<String,Object> data;
+	private NimbleMap<String,Object> data;
 
-	public NimbleResponse(Map<String, Object> graphObject,String url) {
+	public NimbleResponse(NimbleMap<String, Object> graphObject,String url) {
 		this.data = graphObject;
 		addUrls(graphObject, url);
 	}
@@ -17,11 +20,11 @@ public class NimbleResponse implements Serializable {
 	public NimbleResponse() {
 	}
 
-	public Map<String, Object> getData() {
+	public NimbleMap<String, Object> getData() {
 		return data;
 	}
 
-	public void setData(Map<String, Object> data) {
+	public void setData(NimbleMap<String, Object> data) {
 		this.data = data;
 	}
 	
