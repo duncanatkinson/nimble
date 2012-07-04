@@ -652,5 +652,6 @@
 <modules>
 <module>nimble-core</module>
 <module>test-nimble</module>
-</modules>
+    <module>nimble-validation</module>
+  </modules>
 </project>
