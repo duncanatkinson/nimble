@@ -7,6 +7,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.springframework.util.StringUtils;
+
 public abstract class HtmlTag extends TagSupport {
 
 	private static final long serialVersionUID = -7282879166059584144L;
@@ -59,6 +61,7 @@ public abstract class HtmlTag extends TagSupport {
 				if (attributeValue == null) {
 					attributeValue = "";
 				}
+				attributeValue = attributeValue.replace("\"", "&quot;");
 				out.print(attributeName + "=\"" + attributeValue + "\" ");
 			}
 			out.print(">"); // We use print() rather than println() in order to
