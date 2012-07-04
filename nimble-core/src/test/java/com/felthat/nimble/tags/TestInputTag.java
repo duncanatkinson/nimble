@@ -101,6 +101,59 @@ public class TestInputTag {
 		input.doStartTag();
 		assertEquals(null,input.getChecked());
 	}
+	
+	@Test
+	public void doStartTag_multipleCheckBoxes_Array() throws JspException{
+		
+		String[] value = new String[]{"a","b","d"};
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
+		
+		InputTag inputTag = makeCheckbox("a");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+		inputTag = makeCheckbox("b");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+		inputTag = makeCheckbox("c");
+		inputTag.doStartTag();
+		assertEquals(null,inputTag.getChecked());
+		inputTag = makeCheckbox("d");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+	}
+	
+	@Test
+	public void doStartTag_multipleCheckBoxes_List() throws JspException{
+		
+		ArrayList<String> value = new ArrayList<String>();
+		value.add("a");
+		value.add("b");
+		value.add("d");
+		when(nimbleGraph.getValue("myObject/mySubObject")).thenReturn(value);
+		
+		InputTag inputTag = makeCheckbox("a");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+		inputTag = makeCheckbox("b");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+		inputTag = makeCheckbox("c");
+		inputTag.doStartTag();
+		assertEquals(null,inputTag.getChecked());
+		inputTag = makeCheckbox("d");
+		inputTag.doStartTag();
+		assertEquals("checked",inputTag.getChecked());
+	}
+
+	private InputTag makeCheckbox(String checkBoxValue) {
+		InputTag inputTag = new InputTag();
+		inputTag.setName("myObject/mySubObject");
+		inputTag.setType("checkbox");
+		inputTag.setValue(checkBoxValue);
+		inputTag.setPageContext(pageContext);
+		return inputTag;
+	}
+	
 	@Test
 	public void radioSelectedFromModel(){
 		assertNull(input.getChecked());

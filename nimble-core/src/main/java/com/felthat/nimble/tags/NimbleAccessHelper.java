@@ -13,7 +13,7 @@ public class NimbleAccessHelper {
 		String value;
 		if(object == null) return "";
 		
-		Class clazz = object.getClass();
+		Class<? extends Object> clazz = object.getClass();
 			
 		if(clazz == String.class){
 			value = (String) object;
@@ -21,6 +21,7 @@ public class NimbleAccessHelper {
 			String [] arrayStrings = (String[])object;
 			value = arrayStrings.length > 0 ? arrayStrings[0] : null;
 		}else if(object instanceof List){
+			@SuppressWarnings("rawtypes")
 			List arrayList = (List)object;
 			Object firstObject = arrayList.size() > 0 ? arrayList.get(0) : null;
 			if(firstObject != null){

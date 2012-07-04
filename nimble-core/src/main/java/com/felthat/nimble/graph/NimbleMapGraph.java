@@ -151,12 +151,12 @@ public class NimbleMapGraph implements Graph {
 		return get(getTokenizer(key),this.graphObject);
 	}
 
+	@SuppressWarnings("unchecked")
 	private synchronized Graph get(StringTokenizer tokenizer, Map<String, Object> graph) {
 		String key = tokenizer.nextToken();
 		if(tokenizer.hasMoreTokens()){
 			Object value = graph.get(key);
-			if(value instanceof  Map){ 
-				@SuppressWarnings("unchecked")
+			if(value instanceof  Map){
 				Map<String, Object> map = (Map<String, Object>) value;
 				return get(tokenizer,map);
 			}else{

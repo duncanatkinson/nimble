@@ -1,7 +1,5 @@
 package com.felthat.nimble.tags;
 
-import java.util.List;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 

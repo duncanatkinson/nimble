@@ -1,7 +1,5 @@
 package com.felthat.nimble.tags;
 
-import java.util.ArrayList;
-
 import javax.servlet.jsp.PageContext;
 
 import com.felthat.nimble.graph.Graph;

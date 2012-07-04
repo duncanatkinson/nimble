@@ -3,7 +3,6 @@ package com.felthat.nimble.rest;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.felthat.nimble.graph.Graph;
 import com.felthat.nimble.graph.NimbleMapGraph;
 
 public class NimbleResponse implements Serializable {
