@@ -2,6 +2,7 @@
 <html>
 <head>
 <%@ taglib uri="http://www.nimble.com/nimble-core" prefix="n" %>
+<%@ taglib uri="http://www.nimble.com/nimble-validation" prefix="nv" %>
 <script type="text/javascript" src="javascript/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="javascript/jquery.json-2.3.js"></script>
 <script type="text/javascript" src="javascript/nimble.js"></script>
@@ -35,6 +36,11 @@
 	<div>
 	<span>Do you like pizza</span><br />
 		<label for="exampleRadioYes">yes</label>
+		
+		<nv:validate-required field="exampleRadio">
+			<nv:message>You must answer the pizza question</nv:message>
+		</nv:validate-required>
+		
 		<n:input type="radio" id="exampleRadioYes" name="exampleRadio" value="yes" onchange="nimble.send($('input[name=\"exampleRadio\"]'))" />
 		<br />
 		<label for="exampleRadioNo">no</label>

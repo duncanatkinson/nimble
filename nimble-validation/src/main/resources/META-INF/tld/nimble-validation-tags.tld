@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>Custom Tags for nimble validation architecture</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>NimbleValidation</short-name>
+	<uri>http://www.nimble.com/nimble-validation</uri>
+
+	<tag>
+		<name>validate-required</name>
+		<tag-class>com.felthat.nimble.validation.tags.ValidateRequiredTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>path</description>
+			<name>path</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
