@@ -44,7 +44,7 @@ public class NimbleRestService {
 	public void create(
 			@RequestBody NimbleRequest requestObject, HttpServletRequest request){
 		String path = getPath(request);
-		Graph subGraph = new NimbleMapGraph(requestObject.getData());
+		Graph subGraph = new NimbleRequestMapper().map(requestObject);
 		Graph graph = getGraphFromSession(request.getSession());
 		graph.put(path, subGraph);
 	}
@@ -54,7 +54,7 @@ public class NimbleRestService {
 	public void update(@RequestBody NimbleRequest requestObject, HttpServletRequest request, HttpServletResponse httpServletResponse){
 		Graph graph = getGraphFromSession(request.getSession());
 		String path = getPath(request);
-		Graph subGraph = new NimbleMapGraph(requestObject.getData());
+		Graph subGraph = new NimbleRequestMapper().map(requestObject);
 		graph.merge(path, subGraph);
 	}
 	

@@ -81,6 +81,8 @@ public class RestServiceIT {
 		GetMethod getMethod = new GetMethod(urlRestNimble);
 		client.executeMethod(getMethod);
 		String responseString = getMethod.getResponseBodyAsString();
+		System.out.println(responseString);
+		
 		NimbleResponse nimbleResponse2 = mapper.readValue(responseString, NimbleResponse.class);
 		NimbleMapGraph updatedGraph = new NimbleMapGraph(nimbleResponse2.getData());
 		
@@ -181,7 +183,7 @@ public class RestServiceIT {
 	
 	private NimbleRequest makeNimbleRequest(NimbleMapGraph graph) {
 		NimbleRequest nimbleRequest = new NimbleRequest();
-		nimbleRequest.setData(graph.getGraphObject());
+		nimbleRequest.setString("HELLO BROKEN");
 		return nimbleRequest;
 	}
 	

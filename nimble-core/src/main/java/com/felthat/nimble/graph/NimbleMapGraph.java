@@ -1,7 +1,9 @@
 package com.felthat.nimble.graph;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -93,7 +95,7 @@ public class NimbleMapGraph implements Graph {
 		}
 	}
 	
-	public synchronized void put(String value) {
+	public synchronized void put(Object value) {
 		//We blat the map, store only single value
 		this.graphObject = new LinkedHashMap<String,Object>();
 		this.graphObject.put(ROOT_OBJECT_KEY, value);
@@ -180,6 +182,8 @@ public class NimbleMapGraph implements Graph {
 			Object value = graph.get(key);
 			if(value instanceof Map){
 				return new NimbleMapGraph((Map<String, Object>) value);
+			}if(value == null){
+				return null;
 			}else{
 				Map<String, Object> mapForSingleValue = new LinkedHashMap<String,Object>();
 				mapForSingleValue.put("", value);
@@ -215,6 +219,12 @@ public class NimbleMapGraph implements Graph {
 	@Override
 	public String toString() {
 		return NimbleMapGraph.class.getSimpleName() + ": " + this.graphObject.toString();
+	}
+
+	@Override
+	public Set<String> getKeys() {
+		if(graphObject.keySet() == null) return new HashSet<String>();
+		return graphObject.keySet();
 	}
 
 

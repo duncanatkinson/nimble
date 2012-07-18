@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class NimbleMapGraphTest {
+public class NimbleMapGraphTest {	
 
 	
 	@Test
@@ -310,6 +310,14 @@ public class NimbleMapGraphTest {
 		assertEquals("Duncan", graph.get("customer/name").getValue());
 		assertEquals("SW1 3RJ", graph.get("customer/address/postcode").getValue());
 		assertEquals("SW1 3RJ", graph.get("customer").get("address").getValue("postcode"));
+	}
+	
+	@Test
+	public void testGetNull(){	
+		Graph graph = new NimbleMapGraph();
+		graph.put("/customer/name", "Duncan");
+		assertEquals("Duncan", graph.get("customer/name").getValue());
+		assertNull(graph.get("customer").get("address"));
 	}
 	
 	private Graph  makeAddress(String houseNumber,String postcode, String town, String county) {

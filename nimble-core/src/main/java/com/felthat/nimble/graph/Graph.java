@@ -1,5 +1,7 @@
 package com.felthat.nimble.graph;
 
+import java.util.Set;
+
 
 
 public interface Graph {
@@ -16,7 +18,7 @@ public interface Graph {
 	 * @param path
 	 * @param value
 	 */
-	public void put(String value);
+	public void put(Object value);
 	
 	/**
 	 * Overwrite a graph with a new one (
@@ -62,5 +64,11 @@ public interface Graph {
 	 * @return
 	 */
 	public Object getValue();
+
+	/**
+	 * List names of all values in this graph node
+	 * @return
+	 */
+	public Set<String> getKeys();
 
 }

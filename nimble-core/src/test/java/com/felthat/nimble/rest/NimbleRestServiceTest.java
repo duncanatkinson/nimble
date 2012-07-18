@@ -53,10 +53,10 @@ public class NimbleRestServiceTest {
 	@Test
 	public final void testCreate() {
 		NimbleRequest data = new NimbleRequest();
-		Map<String, Object> map = new LinkedHashMap<String,Object>();
-		map.put("name", "duncan");
+		Map<String, NimbleRequest> map = new LinkedHashMap<String,NimbleRequest>();
+		map.put("name", new NimbleRequest("Duncan"));
 		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("name");
-		data.setData(map);
+		data.setMap(map);
 		nimbleRestService.create(data,requestMock);
 		verify(graphMock).put(eq("name"), argThat(isGraphUsingNimbleMap()));
 	}
