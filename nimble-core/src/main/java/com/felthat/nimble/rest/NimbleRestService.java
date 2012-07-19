@@ -28,15 +28,21 @@ public class NimbleRestService {
 
 	public static final String NIMBLE_GRAPH = "NIMBLE_GRAPH";
 
-	@ResponseStatus(value=HttpStatus.OK)
 	@RequestMapping(value="/**", method=RequestMethod.GET)
 	public @ResponseBody NimbleResponse get(HttpServletRequest request, HttpServletResponse httpServletResponse){
 		Graph graph = getGraphFromSession(request.getSession());
 		String path = getPath(request);
+		if("".equals(path)) path = "/";
 		graph = (Graph) graph.get(path);
 		String baseURL = getBaseURL(request);
+		if(graph == null){
+			httpServletResponse.setStatus(HttpStatus.NOT_FOUND.value());
+			return null;
+		}
 		NimbleResponse response = new NimbleResponse((NimbleMapGraph)graph,baseURL);//TODO remove this unfortunate cast somehow
+		httpServletResponse.setStatus(HttpStatus.OK.value());
 		return response;
+	
 	}
 	
 	@ResponseStatus(value = HttpStatus.CREATED)

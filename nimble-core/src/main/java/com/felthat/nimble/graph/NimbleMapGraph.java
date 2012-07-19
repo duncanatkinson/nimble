@@ -38,13 +38,16 @@ public class NimbleMapGraph implements Graph {
 
 	@Override
 	public synchronized void put(String key, Object value) {
+		if("/".equals(key)){
+			key = ROOT_OBJECT_KEY;
+		}
 		StringTokenizer stringTokenizer = getTokenizer(key);
 		save(stringTokenizer, this.graphObject, value);
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void save(StringTokenizer tokenizer, Map<String,Object> graphMap, Object value) {
-		String key = "_rootObjectKey";
+		String key = ROOT_OBJECT_KEY;
 		if(tokenizer.hasMoreElements()){
 			key = tokenizer.nextToken();	
 		}
@@ -161,10 +164,11 @@ public class NimbleMapGraph implements Graph {
 	}
 
 	public synchronized Graph get(String key) {
-		if("".equals(key) || "/".equals(key) || key == null){
-			return this;
+		if("/".equals(key)){
+			return get(getTokenizer(ROOT_OBJECT_KEY),this.graphObject);
+		}else{
+			return get(getTokenizer(key),this.graphObject);
 		}
-		return get(getTokenizer(key),this.graphObject);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -223,8 +227,22 @@ public class NimbleMapGraph implements Graph {
 
 	@Override
 	public Set<String> getKeys() {
-		if(graphObject.keySet() == null) return new HashSet<String>();
-		return graphObject.keySet();
+		Set<String> keySet = graphObject.keySet();
+		if(keySet == null) return new HashSet<String>();
+		//We will replace our hidden variable with the value used outside this class
+		Set<String> copy = new HashSet<String>();
+		copy.addAll(keySet);
+		if(keySet.contains(ROOT_OBJECT_KEY)){
+			copy.remove(ROOT_OBJECT_KEY);
+			copy.add("/");
+		}
+		
+		return copy;
+	}
+
+	@Override
+	public boolean isSingleValue() {
+		return graphObject.keySet().size() == 1;
 	}
 
 

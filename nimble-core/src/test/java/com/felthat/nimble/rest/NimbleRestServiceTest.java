@@ -18,9 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.felthat.nimble.graph.Graph;
+import com.felthat.nimble.graph.NimbleMapGraph;
 
 public class NimbleRestServiceTest {
 
@@ -47,18 +49,47 @@ public class NimbleRestServiceTest {
 	
 	@Test
 	public final void testGet() {
-//		fail("Not yet implemented");
+		performGet("customer");
+		verify(responseMock).setStatus(HttpStatus.NOT_FOUND.value());
+	}
+
+	private void performGet(String path) {
+		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("customer");
+		when(requestMock.getRequestURL()).thenReturn(new StringBuffer("http://www.mytestwebsite.com/contextPath/nimble"));
+		when(requestMock.getContextPath()).thenReturn("contextPath");
+		nimbleRestService.get(requestMock,responseMock);
+		verify(graphMock).get(eq(path));
 	}
 
 	@Test
 	public final void testCreate() {
-		NimbleRequest data = new NimbleRequest();
-		Map<String, NimbleRequest> map = new LinkedHashMap<String,NimbleRequest>();
-		map.put("name", new NimbleRequest("Duncan"));
-		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("name");
-		data.setMap(map);
-		nimbleRestService.create(data,requestMock);
-		verify(graphMock).put(eq("name"), argThat(isGraphUsingNimbleMap()));
+		NimbleRequest request = createCustomerRequest();
+		createObject("customer",request);
+		verify(graphMock).put(eq("customer"), argThat(isGraphUsingNimbleMap()));
+	}
+
+	@Test
+	public final void testCreateAndGet() {
+		NimbleRequest request = createCustomerRequest();
+		createObject("customer",request);
+		verify(graphMock).put(eq("customer"), argThat(isGraphUsingNimbleMap()));
+		Graph customerGraph = new NimbleMapGraph();
+		customerGraph.put("name","Duncan");
+		when(graphMock.get("customer")).thenReturn(customerGraph);
+		performGet("customer");
+		verify(responseMock).setStatus(HttpStatus.OK.value());
+	}
+	
+	private NimbleRequest createCustomerRequest() {
+		NimbleRequest request = new NimbleRequest();
+		request.setData(new LinkedHashMap<String,Object>());
+		request.getData().put("name", "Duncan");
+		return request;
+	}
+
+	private void createObject(String path,NimbleRequest request) {
+		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn(path);
+		nimbleRestService.create(request,requestMock);
 	}
 		
 	@Test

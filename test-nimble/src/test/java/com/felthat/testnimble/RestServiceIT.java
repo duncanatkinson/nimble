@@ -44,13 +44,25 @@ public class RestServiceIT {
 		client = new HttpClient();
 	}
 
-	
 	@Test
 	public void makeSureItIsRunning() throws HttpException, IOException {
+		NimbleMapGraph graph = new NimbleMapGraph();
+		graph.put("name", "Duncan");
+		PutMethod putRequest = makePut(makeNimbleRequest(graph),urlRestNimble);
+		client.executeMethod(putRequest);
+
 		GetMethod request = new GetMethod(urlRestNimble);
 		int response = client.executeMethod(request);
 		Assert.assertEquals(HttpStatus.OK, HttpStatus.valueOf(response));
 	}
+	
+	@Test
+	public void makeSureGraphNotFound() throws HttpException, IOException {
+		GetMethod request = new GetMethod(urlRestNimble);
+		int response = client.executeMethod(request);
+		Assert.assertEquals(HttpStatus.NOT_FOUND, HttpStatus.valueOf(response));
+	}
+	
 	
 	@Test
 	public void performPut() throws HttpException, IOException {
@@ -183,7 +195,6 @@ public class RestServiceIT {
 	
 	private NimbleRequest makeNimbleRequest(NimbleMapGraph graph) {
 		NimbleRequest nimbleRequest = new NimbleRequest();
-		nimbleRequest.setString("HELLO BROKEN");
 		return nimbleRequest;
 	}
 	

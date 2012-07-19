@@ -262,7 +262,7 @@ public class NimbleMapGraphTest {
 		graph.put("person/surname","Atkinson");
 		Graph firstAddress = makeAddress("100","RG30 2AA","Reading","Berkshire");
 		graph.put("person/address", firstAddress);
-		graph = graph.get("/");
+//		graph = graph.get("/");//HMMMMMMM
 		assertEquals("Duncan", graph.getValue("person/firstname"));
 		assertEquals("100", graph.getValue("person/address/housenumber"));
 		assertEquals("RG30 2AA", graph.getValue("person/address/postcode"));

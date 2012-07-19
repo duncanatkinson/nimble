@@ -71,4 +71,10 @@ public interface Graph {
 	 */
 	public Set<String> getKeys();
 
+	/**
+	 * Does this graph wrap a single value
+	 * @return
+	 */
+	public boolean isSingleValue();
+
 }
