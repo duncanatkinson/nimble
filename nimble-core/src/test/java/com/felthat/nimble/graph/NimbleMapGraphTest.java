@@ -33,17 +33,17 @@ public class NimbleMapGraphTest {
 	@Test
 	public void testPut_root(){
 		Graph graph = new NimbleMapGraph();
-		graph.put("/","Duncan");
-		assertEquals("Duncan",graph.getValue("/"));
+		graph.put("","Duncan");
+		assertEquals("Duncan",graph.getValue(""));
 	}
 	
 	@Test
 	public void testPut_rootSubObject(){
 		Graph graph = new NimbleMapGraph();
 		Graph subgraph = new NimbleMapGraph();
-		subgraph.put("/","Duncan");
-		graph.put("/",subgraph);
-		assertEquals("Duncan",graph.getValue("/"));
+		subgraph.put("","Duncan");
+		graph.put("",subgraph);
+		assertEquals("Duncan",graph.getValue(""));
 	}
 
 	
@@ -294,7 +294,7 @@ public class NimbleMapGraphTest {
 		graph.put("customer","Duncan");
 		assertEquals("Duncan", graph.getValue("customer"));
 		graph.put("Duncan"); //root object is now just the string duncan.
-		assertEquals("Duncan", graph.getValue("/"));
+		assertEquals("Duncan", graph.getValue(""));
 		assertEquals("Duncan", graph.getValue());
 		assertNull("Customer should be removed", graph.getValue("customer"));
 	}

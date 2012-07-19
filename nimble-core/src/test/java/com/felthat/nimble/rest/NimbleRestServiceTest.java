@@ -54,7 +54,7 @@ public class NimbleRestServiceTest {
 	}
 
 	private void performGet(String path) {
-		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn("customer");
+		when(requestMock.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE)).thenReturn(path);
 		when(requestMock.getRequestURL()).thenReturn(new StringBuffer("http://www.mytestwebsite.com/contextPath/nimble"));
 		when(requestMock.getContextPath()).thenReturn("contextPath");
 		nimbleRestService.get(requestMock,responseMock);
@@ -79,6 +79,16 @@ public class NimbleRestServiceTest {
 		performGet("customer");
 		verify(responseMock).setStatus(HttpStatus.OK.value());
 	}
+
+
+	@Test
+	public final void testGetRoot() {
+		Graph customerGraph = new NimbleMapGraph();
+		customerGraph.put("name","Duncan");
+		performGet("");
+		verify(responseMock).setStatus(HttpStatus.OK.value());
+	}
+
 	
 	private NimbleRequest createCustomerRequest() {
 		NimbleRequest request = new NimbleRequest();
@@ -94,7 +104,6 @@ public class NimbleRestServiceTest {
 		
 	@Test
 	public final void testUpdate() {
-//		fail("Not yet implemented"); // TODO
 	}
 
 	@Test

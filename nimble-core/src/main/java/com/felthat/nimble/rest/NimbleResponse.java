@@ -3,7 +3,7 @@ package com.felthat.nimble.rest;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.felthat.nimble.graph.NimbleMapGraph;
+import com.felthat.nimble.graph.Graph;
 
 public class NimbleResponse implements Serializable {
 	
@@ -19,8 +19,8 @@ public class NimbleResponse implements Serializable {
 	public NimbleResponse() {
 	}
 
-	public NimbleResponse(NimbleMapGraph graph, String baseURL) {
-		this(graph.getGraphObject(),baseURL);
+	public NimbleResponse(Graph graph, String baseURL) {
+		this(graph.getInternalObject(),baseURL);
 	}
 
 	public Map<String, Object> getData() {

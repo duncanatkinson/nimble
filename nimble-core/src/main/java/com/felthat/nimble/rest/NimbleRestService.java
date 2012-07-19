@@ -30,16 +30,20 @@ public class NimbleRestService {
 
 	@RequestMapping(value="/**", method=RequestMethod.GET)
 	public @ResponseBody NimbleResponse get(HttpServletRequest request, HttpServletResponse httpServletResponse){
-		Graph graph = getGraphFromSession(request.getSession());
+		Graph graphRootGraph = getGraphFromSession(request.getSession());
 		String path = getPath(request);
-		if("".equals(path)) path = "/";
-		graph = (Graph) graph.get(path);
-		String baseURL = getBaseURL(request);
+		Graph graph;
+		if("".equals(path)){
+			graph = graphRootGraph;
+		}else{
+			 graph = graphRootGraph.get(path);
+		}
 		if(graph == null){
 			httpServletResponse.setStatus(HttpStatus.NOT_FOUND.value());
 			return null;
 		}
-		NimbleResponse response = new NimbleResponse((NimbleMapGraph)graph,baseURL);//TODO remove this unfortunate cast somehow
+		String baseURL = getBaseURL(request);
+		NimbleResponse response = new NimbleResponse(graph,baseURL);//TODO remove this unfortunate cast somehow
 		httpServletResponse.setStatus(HttpStatus.OK.value());
 		return response;
 	

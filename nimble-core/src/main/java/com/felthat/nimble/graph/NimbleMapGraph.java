@@ -164,7 +164,7 @@ public class NimbleMapGraph implements Graph {
 	}
 
 	public synchronized Graph get(String key) {
-		if("/".equals(key)){
+		if("".equals(key)){
 			return get(getTokenizer(ROOT_OBJECT_KEY),this.graphObject);
 		}else{
 			return get(getTokenizer(key),this.graphObject);
@@ -245,5 +245,11 @@ public class NimbleMapGraph implements Graph {
 		return graphObject.keySet().size() == 1;
 	}
 
+	@Override
+	public Map<String,Object> getInternalObject() {
+		return graphObject;
+	}
+
+	
 
 }

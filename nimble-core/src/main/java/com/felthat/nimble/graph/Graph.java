@@ -1,5 +1,6 @@
 package com.felthat.nimble.graph;
 
+import java.util.Map;
 import java.util.Set;
 
 
@@ -76,5 +77,8 @@ public interface Graph {
 	 * @return
 	 */
 	public boolean isSingleValue();
+	
+	
+	public Map<String,Object> getInternalObject();
 
 }
