@@ -80,15 +80,6 @@ public class NimbleRestServiceTest {
 		verify(responseMock).setStatus(HttpStatus.OK.value());
 	}
 
-
-	@Test
-	public final void testGetRoot() {
-		Graph customerGraph = new NimbleMapGraph();
-		customerGraph.put("name","Duncan");
-		performGet("");
-		verify(responseMock).setStatus(HttpStatus.OK.value());
-	}
-
 	
 	private NimbleRequest createCustomerRequest() {
 		NimbleRequest request = new NimbleRequest();
