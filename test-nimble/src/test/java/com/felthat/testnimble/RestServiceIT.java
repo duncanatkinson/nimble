@@ -105,22 +105,6 @@ public class RestServiceIT {
 	}
 	
 	@Test
-	public void makeSureUrlIsCorrect() throws HttpException, IOException {
-		GetMethod request = new GetMethod(urlRestNimble);
-		client.executeMethod(request);
-		String responseString = request.getResponseBodyAsString();
-		NimbleResponse nimbleResponse = mapper.readValue(responseString, NimbleResponse.class);
-		assertEquals(1,nimbleResponse.getData().keySet().size());
-		String url = (String) nimbleResponse.getData().get("url");
-		
-		request = new GetMethod(url);
-		client.executeMethod(request);
-		responseString = request.getResponseBodyAsString();
-		NimbleResponse nimbleResponse2 = mapper.readValue(responseString, NimbleResponse.class);
-		assertEquals(nimbleResponse,nimbleResponse2);
-	}
-	
-	@Test
 	public void performPutThenGet() throws HttpException, IOException {
 		NimbleMapGraph graph = new NimbleMapGraph();
 		String namePath = "user/name";

@@ -61,7 +61,7 @@ public class NimbleMapGraphTest {
 		assertEquals("Duncan", graph.getValue("person/name"));
 		
 		Graph graphUpdate = new NimbleMapGraph();
-		graphUpdate.put("","Jeph");
+		graphUpdate.put("/","Jeph");
 		
 		graph.put("person/name", graphUpdate);
 		assertEquals("Jeph", graph.getValue("person/name"));

@@ -152,10 +152,10 @@ public class NimbleMapGraph implements Graph {
 			save(tokenizer,subGraph,newGraph);
 		}else{
 			Map<String, Object> map = ((NimbleMapGraph) newGraph).getGraphObject();
-			if(map.keySet().size() == 1 && map.get(key) instanceof String[]){
+			if(ROOT_OBJECT_KEY.equals(map.keySet().iterator().next())){
 				//Special case, we want to allow updates to a single field
 				//we assume this is desired when the value being set is a single item String.
-				graphToUpdate.put(key, map.get(key));
+				graphToUpdate.put(key, map.get(ROOT_OBJECT_KEY));
 			}else{
 				graphToUpdate.put(key, map);				
 			}
