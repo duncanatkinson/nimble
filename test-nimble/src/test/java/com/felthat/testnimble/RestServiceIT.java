@@ -195,6 +195,7 @@ public class RestServiceIT {
 	
 	private NimbleRequest makeNimbleRequest(NimbleMapGraph graph) {
 		NimbleRequest nimbleRequest = new NimbleRequest();
+		nimbleRequest.setData(graph.getGraphObject());
 		return nimbleRequest;
 	}
 	

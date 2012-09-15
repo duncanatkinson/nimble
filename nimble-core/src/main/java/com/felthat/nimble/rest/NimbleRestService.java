@@ -38,7 +38,7 @@ public class NimbleRestService {
 		}else{
 			 graph = graphRootGraph.get(path);
 		}
-		if(graph == null){
+		if(graph == null || graph.getInternalObject().isEmpty()){
 			httpServletResponse.setStatus(HttpStatus.NOT_FOUND.value());
 			return null;
 		}
@@ -51,8 +51,7 @@ public class NimbleRestService {
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@RequestMapping(value="/**", method=RequestMethod.PUT)
-	public void create(
-			@RequestBody NimbleRequest requestObject, HttpServletRequest request){
+	public void create(@RequestBody NimbleRequest requestObject, HttpServletRequest request){
 		String path = getPath(request);
 		Graph subGraph = new NimbleRequestMapper().map(requestObject);
 		Graph graph = getGraphFromSession(request.getSession());

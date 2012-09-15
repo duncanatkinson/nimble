@@ -9,8 +9,11 @@ public class NimbleRequestMapper {
 	private GraphFactory graphFactory = new GraphFactory();//TODO inject this
 
 	public Graph map(NimbleRequest request) {
-		Graph graph = graphFactory.create();
 		Map<String, Object> data = request.getData();
+		if(data == null){
+			return null;
+		}
+		Graph graph = graphFactory.create();
 		for(String key : data.keySet()){
 			Object object = data.get(key);
 			graph.put(key,object);
