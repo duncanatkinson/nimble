@@ -7,4 +7,8 @@ public class ValidatorTagException extends JspException {
 	public ValidatorTagException() {
 		super();
 	}
+
+	public ValidatorTagException(String string) {
+		super(string);
+	}
 }

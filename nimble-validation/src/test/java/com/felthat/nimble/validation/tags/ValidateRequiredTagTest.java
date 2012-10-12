@@ -17,6 +17,14 @@ public class ValidateRequiredTagTest {
 
 	
 	@Test
+	public final void doStartTag_eval_body() throws JspException {
+		ValidateRequiredTag tag = new ValidateRequiredTag();
+		tag.setValue("path", "customer/name");
+		int pageEval = tag.doStartTag();
+		assertEquals(TagSupport.EVAL_BODY_INCLUDE, pageEval);
+	}
+	
+	@Test
 	public final void doStartTag_simple() throws JspException {
 		ValidateRequiredTag tag = new ValidateRequiredTag();
 		tag.setValue("path", "customer/name");

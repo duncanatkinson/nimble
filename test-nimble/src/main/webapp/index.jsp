@@ -36,8 +36,7 @@
 	<div>
 	<span>Do you like pizza</span><br />
 		<label for="exampleRadioYes">yes</label>
-		
-		<nv:validate-required field="exampleRadio">
+		<nv:validate-required path="exampleRadio">
 			<nv:message>You must answer the pizza question</nv:message>
 		</nv:validate-required>
 		

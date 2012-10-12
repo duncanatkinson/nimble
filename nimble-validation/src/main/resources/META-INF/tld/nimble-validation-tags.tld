@@ -17,4 +17,16 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<name>message</name>
+		<tag-class>com.felthat.nimble.validation.tags.ValidateMessage</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>path</description>
+			<name>path</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
 </taglib>
